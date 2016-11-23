@@ -1,0 +1,37 @@
+nav {
+  //width: 100%;
+  //height: 50px;
+}
+
+.menu {
+  background-color: red;
+  border: 1px solid red;
+  color: white;
+  //padding: 0; //czy potrzebne?
+  //margin: 0; //czy potrzebne?
+  height: 50px; //czy potrzebne?
+  width: 100%; //czy potrzebne??
+  li {
+    display: inline-block;
+    float: right;
+    padding: 18px;
+  }
+  a {
+    text-decoration: none;
+    color: white;
+  }
+  //li:hover{
+  //  background-color: blue;
+  //}
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+//hamburger:
+.hidden {
+  display: none;
+}

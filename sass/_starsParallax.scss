@@ -1,0 +1,19 @@
+.starsLayer1 {
+  background: url(../images/sky_background1.png);
+  position: fixed;
+  width: 100%;
+  height: 300%; //to ew zmienic!
+  top:0;
+  left:0;
+  z-index: -2; //czy tu musi byc o 1 mniej niz w layer2?
+}
+
+.starsLayer2 {
+  background: url(../images/sky_backgroundT1.png) repeat; //co z repeatem?
+  position: fixed;
+  width: 100%;
+  height: 300%; //tak samo!
+  top:0;
+  left:0;
+  z-index: -1;
+}
