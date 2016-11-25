@@ -1,0 +1,66 @@
+.home {
+  color: #134b48;
+  text-align: center;
+  font-family: arial;
+  padding-top: 40px; //zmienic na % lub vh
+  height: 100vh;
+}
+
+.home h1 {
+  font-weight: 600;
+  font-size: 6vh;
+  letter-spacing: .5vh;
+  padding: 20px 0; //zmienic na % lub vh
+}
+
+.home p{
+  font-weight: 400;
+  font-size: 2.5vh;
+  letter-spacing: 1vh;
+  padding: 10px 0; //zmienic na % lub vh
+  opacity: 0; //to do animacji w jQuery
+}
+
+.home img{
+  width: 33vh;
+  height: 33vh;
+  box-shadow: 5px 5px 15px #323232;
+  border-radius: 50%;
+  margin-top: 30px; //cos innego, zeby byl zawsze posrodku?
+}
+
+.downBtn{
+  color: red;
+  border: 2px solid red;
+  border-radius: 50%;
+  width: 6vh;
+  height: 6vh;
+  margin: 0 auto;
+  margin-top: 25vh; //to zrobic indaczej, przyczepic do dolnej krawedzi diva...
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.downBtn p{
+  padding: 0;
+  letter-spacing: 0;
+  transform: rotate(90deg);
+}
+
+.downBtn:hover{
+  background-color: red;
+  color: black;
+  transition-property: background-color;
+  transition-duration: 200ms;
+
+}
+
+
+
+
+
+// TODO: p ma sie pojawic tak jak  u kamila
+//transition / transform - ale jak zrobic zeby dzialalo on load? //http://www.webnote.pl/css3-transition-co-to-jest-i-jak-z-tego-korzystac.html
+//animation: fadein 2s; + @keyframes fadein{from{opacity: 0;}to{opacity:1;}
+//w jQuery animate, albo addClass

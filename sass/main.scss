@@ -1,44 +1,41 @@
 @import "reset";
 @import "starsParallax";
-@import "section1";
-@import "section2";
-@import "section3";
-@import "section4";
-@import "section5";
-@import "stickyMenu";
-@import "footer";
+@import "header";
+//@import "home";
+//@import "about";
+//@import "skills";
+//@import "portflio";
+//@import "contact";
+//@import "stickyMenu";
 
-.section1{
+header, section {
+  width: 100%;
+  height: 100vh;
+}
+
+header {
   background-image: url(../images/seaHorizon11.jpg);
   background-size: cover;
   background-position: bottom center;
 }
 
-.section2{/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&1+74,0+100 */
+footer {
+  width: 100%;
+  height: 50vh;
+  background-image: url(../images/Lunar1.png);
+  background-size: cover;
+  background-position: top left;
+}
+
+.about{
 background: -moz-linear-gradient(top,  rgba(0,0,0,1) 0%, rgba(0,0,0,1) 74%, rgba(0,0,0,0) 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(top,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 74%,rgba(0,0,0,0) 100%); /* Chrome10-25,Safari5.1-6 */
 background: linear-gradient(to bottom,  rgba(0,0,0,1) 0%,rgba(0,0,0,1) 74%,rgba(0,0,0,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
 }
 
-section {
-  //color: #fff;
-  font-family: arial;
-  width: 100%;
-  height: 100vh;
-  margin: auto;
-  //font-size: 16px;
-}
-
-.container{
-  width: 700px;
-  height: 90vh;
-  margin: auto;
-  //opacity: 0.1;
-  border: 1px solid red;
-}
-
-.container p{
-  //color: red;
-  //font-size: 120px;
+.container {
+  width: 750px;
+  margin: 0 auto;
+  //border: 1px solid red;
 }

@@ -13,6 +13,26 @@ $(window).scroll(function(e){
   parallax();
 });
 
+$(".home p").delay(700).animate({opacity: 1}, 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // sticky menu
 function sticky(){
   var nav = $("nav");
@@ -41,7 +61,7 @@ function sticky(){
     }
   });
 }
-sticky();
+//sticky();
 
 // animacja zjazd do odpowiedniej sekcji
 function scroller(){
@@ -58,7 +78,7 @@ function scroller(){
     }, 1000);
   });
 }
-scroller();
+//scroller();
 
 // ruchoma ryba - wywolac w evencie scroll (podobnie jak paralakse)
 function fish(){
@@ -71,8 +91,8 @@ function fish(){
   console.log("fish.position().top: "+fish.position().top);
     fish.css("left", -(movePosition));
 }
-$(window).scroll(function(e){
-    fish();
-});
+//$(window).scroll(function(e){
+//    fish();
+//});
 
 });
