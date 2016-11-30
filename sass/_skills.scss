@@ -1,0 +1,22 @@
+.skills{
+    height: 90vh;
+    background-color: red;
+}
+
+.row{
+  display: flex;
+  justify-content: space-between;
+}
+
+[class*="-4"]{
+  //float: left;
+  //min-height: 1px;
+  width: 24%; //tu komentujemy bo nizej wypisujemy po kolei
+  //background: blue;
+  //border: 10px;
+  height: 25vh;
+  border: solid blue 1px;
+}
+
+
+//zrobic to na fleksach!
