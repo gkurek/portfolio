@@ -13,10 +13,74 @@ $(window).scroll(function(e){
   parallax();
 });
 
-$(".home p").delay(700).animate({opacity: 1}, 1000);
+$(".home p").delay(700).animate({opacity: 1}, 1000); //aniamcja junior front-end devloper i znaczek na dole
+
+var img = $(".skills").find("img");
+img.each(function(){
+  if ($(this).width()>$(this).height()){
+    $(this).css('height', 'auto');
+    $(this).css('width', '100%');
+  }else{
+    $(this).css('height', '100%');
+    $(this).css('width', 'auto');
+  }
+  });
+
+//dla obrazkow szerszych niz wyzszych (bo w css mają height 100%, a te trzeba zmienic na width 100%)
+//czyli potem: napisac funkcje ktora sprawdza ile ma kazdy obazek i dla wyzszych ustawia tak a szerszych inaczej
 
 
+//scrollreveal - z nim mozna jeszcze sie troche pobawic potem, ew. w footerze itp
 
+window.sr = ScrollReveal();
+sr.reveal(".row-1, .row-2, .row-3", {
+  reset: true,
+  delay: 400,
+  duration: 1200,
+  //distance: 0, - default podnosi 20px do gory, 0 zostaje w miejscu
+  //viewOffset: {top: 48px, right: 0, bottom: 0, left: 0 } dla toolbaru przyklejonego z gory o wysokosci 48px
+});
+
+
+function slider(){
+  var slider = $(".portfolio").find(".slider");
+  var next = slider.find(".nextButton");
+  var prev = slider.find(".prevButton");
+  var li = slider.find("li");
+  var ul = slider.find("ul");
+  console.log(li);
+
+  var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400 (w 60)
+  var widthLi = li.first().width();
+
+  var first = li.first().clone(); //tworzymy sciemnione elementy
+  var last = li.last().clone();
+
+  ul.append(first).prepend(last); //dodajemy elementy do listy
+  ul.css("left", -widthLi); //przesuwamy go zeby byl pierwszym z listy nie ostatnim
+
+  ul.width((li.length+2)*widthLi); //zmienialy szerokosc ul
+
+  next.on("click", function(){
+    index++;
+    ul.animate({left: -(index*widthLi)}, function(){
+      if (li.length < index){
+        index = 1;
+        ul.css("left", -widthLi);
+      }
+    });
+  });
+  prev.on("click", function(){
+    index--;
+    ul.animate({left: -(index*widthLi)}, function(){
+      if (index < 1){
+        index = 2;
+        ul.css("left", -index*widthLi);
+      }
+    });
+  });
+}
+slider();
 
 
 

@@ -1,22 +1,32 @@
 .skills{
-    height: 90vh;
-    background-color: red;
+    height: 100vh;
+    //background-color: rgba(255, 230, 230,.55);
 }
 
-.row{
+[class*="row-"]{
   display: flex;
   justify-content: space-between;
 }
 
 [class*="-4"]{
-  //float: left;
   //min-height: 1px;
-  width: 24%; //tu komentujemy bo nizej wypisujemy po kolei
-  //background: blue;
-  //border: 10px;
-  height: 25vh;
-  border: solid blue 1px;
+  width: 24%;
+  height: 30vh;
+  //border: solid red 1px;
 }
 
+.skills img{
+  //height: 100%; - to dodajemy w js
+  display: block;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+[class*="col-"]{ //tu transform na hover off
+  transform: scale(1);
+  transition-duration: 0.3s;
+}
 
-//zrobic to na fleksach!
+[class*="col-"]:hover{
+  transform:scale(1.1);
+  transition-duration: 0.3s;
+}

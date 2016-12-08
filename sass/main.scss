@@ -2,11 +2,15 @@
 @import "starsParallax";
 @import "header";
 @import "skills";
+@import "portfolio";
+@import "contact";
 //@import "home";
 //@import "about";
-//@import "portflio";
-//@import "contact";
 //@import "stickyMenu";
+
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
 
 header, section {
   width: 100%;

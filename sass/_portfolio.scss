@@ -1,0 +1,68 @@
+.portfolio{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.portfolio h1{
+  color: red;
+  font-weight: 600;
+  font-size: 6vh;
+  letter-spacing: .5vh;
+  text-align: center;
+  padding: 8vh 0;
+}
+
+.img1{
+  width: 750px;
+  height: 60vh;
+  background-color: red;
+}
+.img2{
+  width: 750px;
+  height: 60vh;
+  background-color: blue;
+}
+
+.slider{
+  width: 100%;
+  height: 60vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.slider li{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  float: left;
+}
+
+.prevButton, .nextButton{
+  width: 50px;
+  color: black;
+  font-size: 48px;
+  margin: 0 10px;
+  position: relative;
+  z-index: 10;
+}
+
+.prevButton {
+  position: absolute;
+  top: 50%;
+}
+
+.nextButton {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  text-align: right;
+}
