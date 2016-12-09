@@ -1,3 +1,24 @@
+nav{
+  //background: red;
+  //border: 2px solid red;
+}
+.menu ul{
+  display: flex;
+  justify-content: center;
+}
+
+.menu li{
+  display: inline-block;
+  padding: 15px 20px;
+}
+
+.menu li:hover{
+  //background: red;
+  transition: 0.2s ease-in;
+  color: red;
+}
+
+//==========================
 .home {
   color: #134b48;
   text-align: center;
