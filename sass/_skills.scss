@@ -3,9 +3,14 @@
     //background-color: rgba(255, 230, 230,.55);
 }
 
-[class*="row-"]{
+.row-1, .row-2{
   display: flex;
   justify-content: space-between;
+}
+
+.row-3{
+  display: flex;
+  justify-content:center;
 }
 
 [class*="-4"]{
