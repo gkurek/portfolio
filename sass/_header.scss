@@ -24,6 +24,7 @@ nav{
     color: inherit;
     text-decoration: none;
 }
+
 //==
 .menu-side{
   position: fixed;
@@ -31,26 +32,43 @@ nav{
   right: 3em;
   color: red;
   z-index: 99; //czy to potrzebne?
+  transition: all 2s ease-in-out .5s;
 }
+
+.sideBtn {
+  //margin: 0 auto;
+  width: 45px;
+  height: 45px;
+  background-color: red;
+  border-radius: 50% 50% 0 0;
+}
+.round{
+  border-radius: 50%;
+}
+
+.sideBtn i {
+   margin: auto;
+   color: black;
+}
+
+.menu-side-list{
+  transition: opacity .3s; //transition display nie dziala
+}
+
 .menu-side-list {
   ul {
     list-style: none;
-    //display: flex;
-    //flex-direction: column;
-    //align-items: flex-end;
   }
   * {
-    margin: 0;
+    margin: 0;  //to sprawdzic, czemu nie wyzej?
     padding: 0;
     outline: 0;
-    transition: all .5s ease;
+    transition: all 1s ease; //do czego to sie odnosi
     box-sizing: border-box;
   }
   li a {
     display: block;
     position: relative;
-    //padding: 15px 0;
-    //color: black;
   }
   .fa{
     vertical-align: middle;
@@ -62,8 +80,8 @@ nav{
     z-index: 4;
   }
   li span{
-    font-size: 15px;
-    vertical-align: middle;
+    font-size: 16px;
+    vertical-align:middle;
     height: 45px;
     line-height: 45px;
     width: auto;
@@ -72,21 +90,34 @@ nav{
     display: block;
     position: absolute;
     top: 0;
+    right: 0;
     visibility: hidden;
     z-index: 3;
-    right: -100px;
+    padding-right: .5em;
+    //background-color: #555;
+
   }
-  li a:hover .fa{transform: rotate(720deg);}
+  li a:hover .fa {
+    transform: rotate(720deg);
+    color: #fff; //zmienia kolor ikon po najechaniu, plynnie
+  }
   li a:hover span {
     visibility: visible;
-    right: 45px}
-  li:hover{
-    //background: red;
-    transition: 0.15s ease-in;
-    color: red;
+    right: 45px
   }
-
+  li .fa {
+    background-color: red;//#EEE;
+    color: black;//#555;
+  }
+  li:nth-child(10n+1) span,
+  li:nth-child(10n+1) a:hover .fa {
+    //background-color: #8350DD;
+  }
+  li:nth-child(10n+5) a .fa{
+    border-radius: 0 0 50% 50%;
+  }
 }
+
 
 
 //==========================

@@ -110,7 +110,7 @@ function check(){
   }
 }
 $(window).on("scroll", function(){ // alternatywa: $(window).scroll(function(){console.log("dziala")});
-  //check();
+  check();
 });
 
 //=======
@@ -118,11 +118,12 @@ $(window).on("scroll", function(){ // alternatywa: $(window).scroll(function(){c
 var sideBtn = $(".sideBtn");
 var menu = $(".menu-side-list");
 sideBtn.on("click", function(){
-  console.log("asd");
   menu.toggleClass("hidden");
+  sideBtn.toggleClass("round");
 })
 
-
+//http://www.cssscript.com/animated-sticky-side-navigation-bar-with-pure-css/
+//https://codyhouse.co/demo/stretchy-navigation/index.html#0
 
 /*
 function sticky(){
