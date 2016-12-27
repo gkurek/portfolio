@@ -1,118 +1,97 @@
-nav{
-  //background: rgba(255, 255, 255, .2);
-}
-
-.menu-top{
+//menu-top
+.menu-top {
   background: rgba(255, 255, 255, .2);
   border-bottom: 1px #549f93 solid;
-  ul{
-    display: flex;
-    justify-content:space-around;
+  position: absolute; //opcja na schowanie reszty pod nav
+  width: 100%; //goes with pos: abs
+  ul {
+     display: flex;
+     justify-content: space-around;
   }
-  li{
-    display: inline-block;
-    padding: 15px 20px;
+  li {
+     padding: 15px 20px;
+     transition: color 0.2s ease-in;
   }
-  li:hover{
-    //background: red;
-    transition: 0.15s ease-in;
+  li:hover {
+    border-bottom: 2px red solid; //tu jak podpinam pod transition to pojawia sie czarny botder najpierw, a generalnie zeby border li pokrywal sie z border menu-top
     color: red;
   }
 }
 
-.menu-top a, .menu-side a, .downBtn a{
-    color: inherit;
-    text-decoration: none;
+.menu-top a, .menu-side a, .downBtn a {
+  color: inherit;
+  text-decoration: none;
 }
 
-//==
+//menu-side
 .menu-side{
   position: fixed;
   top: 3em;
   right: 3em;
   color: red;
   z-index: 99; //czy to potrzebne?
-  transition: all 2s ease-in-out .5s;
 }
 
 .sideBtn {
-  //margin: 0 auto;
+  transition: 1s ease;
+  opacity: 0;
+  display: flex;
   width: 45px;
   height: 45px;
   background-color: red;
-  border-radius: 50% 50% 0 0;
-}
-.round{
   border-radius: 50%;
+  i {
+    margin: auto;
+    color: black;
+  }
 }
 
-.sideBtn i {
-   margin: auto;
-   color: black;
-}
-
-.menu-side-list{
-  transition: opacity .3s; //transition display nie dziala
+.btnRadiusFix{
+  border-radius: 50% 50% 0 0;
 }
 
 .menu-side-list {
-  ul {
-    list-style: none;
-  }
-  * {
-    margin: 0;  //to sprawdzic, czemu nie wyzej?
-    padding: 0;
-    outline: 0;
-    transition: all 1s ease; //do czego to sie odnosi
-    box-sizing: border-box;
-  }
-  li a {
+  a {
     display: block;
-    position: relative;
+    position: relative; //dlaczego
   }
-  .fa{
-    vertical-align: middle;
+  .fa {
     width: 45px;
     height: 45px;
     line-height: 45px;
     text-align: center;
-    position: relative;
+    background-color: red;
+    color: black;
+    position: relative; //bez tego fa robi sie przexroxczyste i widac span ponizej, czemu?
+    transition: all 1s ease;
     z-index: 4;
   }
-  li span{
-    font-size: 16px;
-    vertical-align:middle;
+  span {
+    padding-right: .5em;
+    width: auto;
     height: 45px;
     line-height: 45px;
-    width: auto;
-    white-space: nowrap; //??
-    overflow: hidden;
-    display: block;
+    font-weight: bold;
+    color: red;
+    font-size: 16px;
     position: absolute;
     top: 0;
     right: 0;
     visibility: hidden;
+    opacity: 0;
+    transition: all 1s ease;
     z-index: 3;
-    padding-right: .5em;
-    //background-color: #555;
+  }
 
+  a:hover .fa {
+    color: #fff; // kolor ikon
   }
-  li a:hover .fa {
-    transform: rotate(720deg);
-    color: #fff; //zmienia kolor ikon po najechaniu, plynnie
-  }
-  li a:hover span {
+  a:hover span {
     visibility: visible;
-    right: 45px
+    right: 45px;
+    opacity: 1;
   }
-  li .fa {
-    background-color: red;//#EEE;
-    color: black;//#555;
-  }
-  li:nth-child(10n+1) span,
-  li:nth-child(10n+1) a:hover .fa {
-    //background-color: #8350DD;
-  }
+
   li:nth-child(10n+5) a .fa{
     border-radius: 0 0 50% 50%;
   }
@@ -125,8 +104,9 @@ nav{
   color: #134b48;
   text-align: center;
   font-family: arial;
-  padding-top: 40px; //zmienic na % lub vh
-  height: 100vh;
+  padding-top: 12vh; //zmienic na % lub vh
+  height: 90vh;
+  //position: relative;
 }
 
 .home h1 {
@@ -134,6 +114,11 @@ nav{
   font-size: 6vh;
   letter-spacing: .5vh;
   padding: 20px 0; //zmienic na % lub vh
+  transition: 1s ease;
+}
+
+.home h1:hover{
+  color: red;
 }
 
 .home p{
@@ -159,7 +144,9 @@ nav{
   width: 6vh;
   height: 6vh;
   margin: 0 auto;
-  margin-top: 25vh; //to zrobic indaczej, przyczepic do dolnej krawedzi diva...
+  margin-top: 18vh; //to zrobic indaczej, przyczepic do dolnej krawedzi diva...
+  //position: absolute;
+  //bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

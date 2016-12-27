@@ -18,6 +18,7 @@ $(window).scroll(function(e){
 $(".home p").delay(700).animate({opacity: 1}, 1000); //aniamcja junior front-end devloper i znaczek na dole
 
 //3=======================================
+//wielkosc obrazkow w skills
 var img = $(".skills").find("img"); //ustalamy wysokosc img w skills
 img.each(function(){
   if ($(this).width()>$(this).height()){
@@ -45,6 +46,7 @@ sr.reveal(".row-1, .row-2, .row-3", {
 });
 
 //5=======================================
+//zjazd do odpowiedniej sekcji na stronie
 function scroller(){
   var a = $(".menu-side, .menu-top, .downBtn").find("a") //czy to jest optymalne wyszukanie?
   a.on("click", function(e){
@@ -99,51 +101,51 @@ slider();
 
 //7===========================================
 //sticky
+var x = $("ul").find("i").hide();
+var y = $("ul").find("li").first().hide();
 
 function check(){
   var scrolled = $(window).scrollTop();
   var sideBtn = $(".sideBtn");
+  var nav = $("nav");
+  var menuList = sideBtn.next();
   if (scrolled > 51){
+    x.show();
+    y.show();
     sideBtn.removeClass("hidden");
+    sideBtn.css("opacity", "+=1"); //ale nie da sie analogicznie zrobic w drugą stronę
+    nav.removeClass("menu-top");
+    nav.addClass("menu-side");
+    menuList.addClass("menu-side-list");
+    menuList.addClass("hidden");
+    menuList.removeClass("container");
   }else {
+    x.hide();
+    y.hide();
     sideBtn.addClass("hidden"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
+    sideBtn.css("opacity", "0")
+    nav.addClass("menu-top");
+    nav.removeClass("menu-side");
+    menuList.removeClass("hidden")
+    menuList.removeClass("menu-side-list");
+    menuList.addClass("container");
   }
 }
+
 $(window).on("scroll", function(){ // alternatywa: $(window).scroll(function(){console.log("dziala")});
   check();
 });
 
 //=======
-
 var sideBtn = $(".sideBtn");
-var menu = $(".menu-side-list");
+var menu = sideBtn.next();
 sideBtn.on("click", function(){
   menu.toggleClass("hidden");
-  sideBtn.toggleClass("round");
+  sideBtn.toggleClass("btnRadiusFix");
 })
 
 //http://www.cssscript.com/animated-sticky-side-navigation-bar-with-pure-css/
 //https://codyhouse.co/demo/stretchy-navigation/index.html#0
-
-/*
-function sticky(){
-  function check(){
-    var scrolled = $(window).scrollTop();
-    var bars = $("header").find("i")
-    if (scrolled > 51 ){
-      $(bars).addClass("sticky");
-    }else{
-      $(bars).remove("sticky").addClass("hidden");
-    }
-  }
-  $(window).on("scroll", function(){ // alternatywa: $(window).scroll(function(){console.log("dziala")});
-    check();
-  });
-}
-//sticky();
-
-
-*/
 
 
 
@@ -185,15 +187,14 @@ sticky();
 // ruchoma ryba - wywolac w evencie scroll (podobnie jak paralakse)
 function fish(){
   var scrolled = $(window).scrollTop();
-  console.log(scrolled);
   var fish = $(".fish");
   var movePosition = ((fish.position().top)-(scrolled*2));
   console.log("movePosition: "+movePosition);
   console.log("scrollTop: "+scrolled);
   console.log("fish.position().top: "+fish.position().top);
-    fish.css("left", -(movePosition));
+    fish.css("left", -(movePosition)*0.5);
 }
-//$(window).scroll(function(e){
-//    fish();
-//});
+$(window).scroll(function(e){
+    fish();
+});
 });

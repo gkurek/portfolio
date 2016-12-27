@@ -1,40 +1,3 @@
-  nav {
-  //width: 100%;
-  //height: 50px;
-}
-/*
-.menu {
-  background-color: red;
-  border: 1px solid red;
-  color: white;
-  //padding: 0; //czy potrzebne?
-  //margin: 0; //czy potrzebne?
-  height: 50px; //czy potrzebne?
-  width: 100%; //czy potrzebne??
-  li {
-    display: inline-block;
-    float: right;
-    padding: 18px;
-  }
-  a {
-    text-decoration: none;
-    color: white;
-  }
-  //li:hover{
-  //  background-color: blue;
-  //}
-}
-*/
-
-.sideBtn{
-  //position: fixed;
-  //top: 3em;
-  //right: 3em;
-  display: flex;
-  justify-content: flex-end;
-  color: red;
-}
-
 .sticky {
     position: fixed;
     top: 0;
@@ -42,8 +5,12 @@
     color: red;
 }
 
-//hamburger:
 .hidden {
-  //display: none;
-  opacity: 0;
+  display: none;
+  //opacity: 0;
 }
+
+
+//zrobic hamburger
+//sidemenu zmienic zeby sie rozwijalo ladnie
+//hidden dodac hiddexSide z opacity i hidden normalne?
