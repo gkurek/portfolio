@@ -67,7 +67,7 @@ function slider(){
   var li = slider.find("li");
   var ul = slider.find("ul");
 
-  var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400 (w 60)
+  var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400
   var widthLi = li.first().width();
 
   var first = li.first().clone(); //tworzymy sciemnione elementy
@@ -100,53 +100,54 @@ function slider(){
 slider();
 
 //7===========================================
-//sticky
-var x = $("ul").find("i").hide();
-var y = $("ul").find("li").first().hide();
+//sticky sidemenu
+var nav = $("nav");
+var icons = nav.find("ul").find("i").hide();
+var homeLi = nav.find("li").first().hide();
+var sideBtn = nav.find(".sideBtn");
+var menuList = sideBtn.next();
 
 function check(){
-  var scrolled = $(window).scrollTop();
-  var sideBtn = $(".sideBtn");
-  var nav = $("nav");
-  var menuList = sideBtn.next();
+  var scrolled = $(window).scrollTop(); //jak dac zeby tu wartość przed scrolnięciem byla 0?
   if (scrolled > 51){
-    x.show();
-    y.show();
-    sideBtn.removeClass("hidden");
-    sideBtn.css("opacity", "+=1"); //ale nie da sie analogicznie zrobic w drugą stronę
-    nav.removeClass("menu-top");
-    nav.addClass("menu-side");
-    menuList.addClass("menu-side-list");
-    menuList.addClass("hidden");
-    menuList.removeClass("container");
+    icons.show();
+    homeLi.show();
+    sideBtn.removeClass("hidden").css("opacity", "+=1"); //ale patentu z opacity nie da sie analogicznie zrobic w druga strone
+    nav.removeClass("menu-top").addClass("menu-side");
+    menuList.addClass("menu-side-list hidden").removeClass("container");
   }else {
-    x.hide();
-    y.hide();
-    sideBtn.addClass("hidden"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
-    sideBtn.css("opacity", "0")
-    nav.addClass("menu-top");
-    nav.removeClass("menu-side");
-    menuList.removeClass("hidden")
-    menuList.removeClass("menu-side-list");
-    menuList.addClass("container");
+    icons.hide();
+    homeLi.hide();
+    sideBtn.addClass("hidden").css("opacity", "0"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
+    nav.addClass("menu-top").removeClass("menu-side");
+    menuList.removeClass("menu-side-list hidden").addClass("container");
   }
 }
 
-$(window).on("scroll", function(){ // alternatywa: $(window).scroll(function(){console.log("dziala")});
+$(window).on("load scroll", function(){ // alternatywa: $(window).scroll(function(){...});
   check();
 });
 
-//=======
-var sideBtn = $(".sideBtn");
-var menu = sideBtn.next();
+//=====================================
+//side button zmienia sie z kolka na polkolko
 sideBtn.on("click", function(){
-  menu.toggleClass("hidden");
+  menuList.toggleClass("hidden");
   sideBtn.toggleClass("btnRadiusFix");
 })
 
-//http://www.cssscript.com/animated-sticky-side-navigation-bar-with-pure-css/
-//https://codyhouse.co/demo/stretchy-navigation/index.html#0
-
+//======================================
+// ruchoma ryba (wywolac w evencie scroll razem z paralaksą?)
+function fish(){
+  var scrolled = $(window).scrollTop();
+  var fish = $(".fish");
+  if (scrolled > fish.position().top){
+      fish.css("left", -90+(scrolled-fish.position().top)); //zapisac -90 do zmiennej?
+  }
+}
+$(window).scroll(function(e){
+    fish();
+});
+});
 
 
 // sticky menu
@@ -181,20 +182,3 @@ function sticky(){
 }
 sticky();
 */
-
-
-//=======================================================================
-// ruchoma ryba - wywolac w evencie scroll (podobnie jak paralakse)
-function fish(){
-  var scrolled = $(window).scrollTop();
-  var fish = $(".fish");
-  var movePosition = ((fish.position().top)-(scrolled*2));
-  console.log("movePosition: "+movePosition);
-  console.log("scrollTop: "+scrolled);
-  console.log("fish.position().top: "+fish.position().top);
-    fish.css("left", -(movePosition)*0.5);
-}
-$(window).scroll(function(e){
-    fish();
-});
-});

@@ -3,6 +3,15 @@
     //background-color: rgba(255, 230, 230,.55);
 }
 
+.skills h1 {
+  color: red;
+  font-weight: 600;
+  font-size: 6vh;
+  letter-spacing: .5vh;
+  text-align: center;
+  padding: 6vh 0;
+}
+
 .row-1, .row-2{
   display: flex;
   justify-content: space-between;

@@ -13,7 +13,7 @@
      transition: color 0.2s ease-in;
   }
   li:hover {
-    border-bottom: 2px red solid; //tu jak podpinam pod transition to pojawia sie czarny botder najpierw, a generalnie zeby border li pokrywal sie z border menu-top
+    border-bottom: 2px red solid; //tu jak podpinam pod transition to pojawia sie czarny border najpierw, a generalnie zeby border li pokrywal sie z border menu-top
     color: red;
   }
 }
@@ -97,8 +97,6 @@
   }
 }
 
-
-
 //==========================
 .home {
   color: #134b48;
@@ -168,9 +166,6 @@
 .downBtn a{
   padding: 13px 15px;
 }
-
-
-
 
 // TODO: p ma sie pojawic tak jak  u kamila
 //transition / transform - ale jak zrobic zeby dzialalo on load? //http://www.webnote.pl/css3-transition-co-to-jest-i-jak-z-tego-korzystac.html
