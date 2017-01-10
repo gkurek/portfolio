@@ -1,20 +1,21 @@
 //menu-top
 .menu-top {
+  position: absolute; //zeby jak bedzie hidden
+  width: 100%; //do position: abs
   background: rgba(255, 255, 255, .2);
   border-bottom: 1px #549f93 solid;
-  position: absolute; //opcja na schowanie reszty pod nav
-  width: 100%; //goes with pos: abs
   ul {
      display: flex;
      justify-content: space-around;
   }
   li {
      padding: 15px 20px;
-     transition: color 0.2s ease-in;
+     border-bottom: 2px transparent solid;
+     transition: 0.2s ease-in;
   }
   li:hover {
-    border-bottom: 2px red solid; //tu jak podpinam pod transition to pojawia sie czarny border najpierw, a generalnie zeby border li pokrywal sie z border menu-top
-    color: red;
+     border-bottom-color: red;
+     color: red;
   }
 }
 
@@ -23,18 +24,18 @@
   text-decoration: none;
 }
 
-//menu-side
+//menu-side (scrolled > 51px)
 .menu-side{
   position: fixed;
-  top: 3em;
-  right: 3em;
+  top: 3em; //zmienic jednostki?
+  right: 3em; //zmienic jednostki?
   color: red;
-  z-index: 99; //czy to potrzebne?
+  z-index: 2;
 }
 
 .sideBtn {
-  transition: 1s ease;
-  opacity: 0;
+  transition: 100ms ease;
+  opacity: 0; //zeby pojawialo sie smooth, ale gdzie jest opacity1?
   display: flex;
   width: 45px;
   height: 45px;
@@ -50,10 +51,14 @@
   border-radius: 50% 50% 0 0;
 }
 
+
 .menu-side-list {
+  transition: 0.2s ease-in;
+  overflow: hidden;
+  height: 0px;
   a {
     display: block;
-    position: relative; //dlaczego
+    position: relative; //zeby span mogl miec position: abs
   }
   .fa {
     width: 45px;
@@ -62,8 +67,7 @@
     text-align: center;
     background-color: red;
     color: black;
-    position: relative; //bez tego fa robi sie przexroxczyste i widac span ponizej, czemu?
-    transition: all 1s ease;
+    transition: 1s ease;
     z-index: 4;
   }
   span {
@@ -75,11 +79,11 @@
     color: red;
     font-size: 16px;
     position: absolute;
-    top: 0;
-    right: 0;
+      top: 0;
+      right: 0;
     visibility: hidden;
     opacity: 0;
-    transition: all 1s ease;
+    transition: 1s ease;
     z-index: 3;
   }
 
@@ -102,38 +106,35 @@
   color: #134b48;
   text-align: center;
   font-family: arial;
-  padding-top: 12vh; //zmienic na % lub vh
+  padding-top: 12vh;
   height: 90vh;
-  //position: relative;
-}
-
-.home h1 {
-  font-weight: 600;
-  font-size: 6vh;
-  letter-spacing: .5vh;
-  padding: 20px 0; //zmienic na % lub vh
-  transition: 1s ease;
+  h1 {
+    font-weight: 600;
+    font-size: 6vh;
+    letter-spacing: .5vh;
+    padding: 20px 0; //zmienic na % lub vh
+    transition: 1s ease;
+  }
+  p {
+    font-weight: 400;
+    font-size: 2.5vh;
+    letter-spacing: 1vh;
+    padding: 10px 0; //zmienic na % lub vh
+    opacity: 0; //to do animacji w jQuery
+  }
+  img{
+    width: 33vh;
+    height: 33vh;
+    box-shadow: 5px 5px 15px #323232;
+    border-radius: 50%;
+    margin-top: 30px; //cos innego, zeby byl zawsze posrodku?
+  }
 }
 
 .home h1:hover{
   color: red;
 }
 
-.home p{
-  font-weight: 400;
-  font-size: 2.5vh;
-  letter-spacing: 1vh;
-  padding: 10px 0; //zmienic na % lub vh
-  opacity: 0; //to do animacji w jQuery
-}
-
-.home img{
-  width: 33vh;
-  height: 33vh;
-  box-shadow: 5px 5px 15px #323232;
-  border-radius: 50%;
-  margin-top: 30px; //cos innego, zeby byl zawsze posrodku?
-}
 
 .downBtn{
   color: red;
@@ -143,31 +144,22 @@
   height: 6vh;
   margin: 0 auto;
   margin-top: 18vh; //to zrobic indaczej, przyczepic do dolnej krawedzi diva...
-  //position: absolute;
-  //bottom: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.downBtn p{
-  padding: 0;
-  letter-spacing: 0;
-  transform: rotate(90deg);
+  p {
+    padding: 0;
+    letter-spacing: 0;
+    transform: rotate(90deg);
+  }
+  a{
+    padding: 13px 15px;
+  }
 }
 
 .downBtn:hover{
   background-color: red;
   color: black;
   transition-property: background-color;
-  transition-duration: 200ms;
+  transition-duration: 400ms;
 }
-
-.downBtn a{
-  padding: 13px 15px;
-}
-
-// TODO: p ma sie pojawic tak jak  u kamila
-//transition / transform - ale jak zrobic zeby dzialalo on load? //http://www.webnote.pl/css3-transition-co-to-jest-i-jak-z-tego-korzystac.html
-//animation: fadein 2s; + @keyframes fadein{from{opacity: 0;}to{opacity:1;}
-//w jQuery animate, albo addClass

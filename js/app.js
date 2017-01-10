@@ -7,8 +7,6 @@ function parallax(){
     var scrolled = $(window).scrollTop();
     $('.starsLayer1').css('top', -(scrolled * 0.2) + 'px');
     $('.starsLayer2').css('top', -(scrolled * 0.3) + 'px');
-    //console.log(scrolled); //test
-    //wywolanie w evencie scroll - dac jeden taki event tylko?
 }
 $(window).scroll(function(e){
   parallax();
@@ -110,12 +108,16 @@ var menuList = sideBtn.next();
 function check(){
   var scrolled = $(window).scrollTop(); //jak dac zeby tu wartość przed scrolnięciem byla 0?
   if (scrolled > 51){
-    icons.show();
-    homeLi.show();
-    sideBtn.removeClass("hidden").css("opacity", "+=1"); //ale patentu z opacity nie da sie analogicznie zrobic w druga strone
-    nav.removeClass("menu-top").addClass("menu-side");
-    menuList.addClass("menu-side-list hidden").removeClass("container");
+    if (sideBtn.hasClass("hidden"))
+    {
+      icons.show();
+      homeLi.show();
+      sideBtn.removeClass("hidden").css("opacity", "+=1"); //ale patentu z opacity nie da sie analogicznie zrobic w druga strone
+      nav.removeClass("menu-top").addClass("menu-side");
+      menuList.addClass("menu-side-list hidden").removeClass("container");
+    }
   }else {
+    $('.sideBtn').removeClass('btnRadiusFix');
     icons.hide();
     homeLi.hide();
     sideBtn.addClass("hidden").css("opacity", "0"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
@@ -125,27 +127,46 @@ function check(){
 }
 
 $(window).on("load scroll", function(){ // alternatywa: $(window).scroll(function(){...});
-  check();
+  check(menuList);
 });
 
 //=====================================
 //side button zmienia sie z kolka na polkolko
 sideBtn.on("click", function(){
-  menuList.toggleClass("hidden");
-  sideBtn.toggleClass("btnRadiusFix");
+  if (menuList.hasClass('hidden')) {
+    menuList.removeClass('hidden');
+    sideBtn.addClass("btnRadiusFix");
+    setTimeout(function(){
+      $('.menu-side-list').css('height', '250px');
+      setTimeout(function(){
+        $('.menu-side-list').css('overflow', 'visible');
+      }, 200)
+    }, 10);
+  } else {
+    $('.menu-side-list').css('height', '0px');
+    $('.menu-side-list').css('overflow', 'hidden');
+    setTimeout(function(){
+      menuList.addClass('hidden');
+
+      sideBtn.removeClass("btnRadiusFix");
+    }, 200);
+  }
+
+
+
 })
 
 //======================================
 // ruchoma ryba (wywolac w evencie scroll razem z paralaksą?)
-function fish(){
+function fish(_curve, _offsetLeft){
   var scrolled = $(window).scrollTop();
   var fish = $(".fish");
   if (scrolled > fish.position().top){
-      fish.css("left", -90+(scrolled-fish.position().top)); //zapisac -90 do zmiennej?
+      fish.css("left", (_offsetLeft + (scrolled-fish.position().top)) * $(window).width()/$(window).height() * _curve ); //zapisac -90 do zmiennej?
   }
 }
 $(window).scroll(function(e){
-    fish();
+    fish(1, 0);
 });
 });
 
