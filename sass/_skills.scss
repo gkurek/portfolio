@@ -1,46 +1,29 @@
-.skills{
-    height: 100vh;
-    //background-color: rgba(255, 230, 230,.55);
-}
-
 .skills h1 {
-  color: red;
-  font-weight: 600;
-  font-size: 6vh;
-  letter-spacing: .5vh;
-  text-align: center;
   padding: 6vh 0;
 }
 
-.row-1, .row-2{
-  display: flex;
-  justify-content: space-between;
-}
-
-.row-3{
-  display: flex;
-  justify-content:center;
-}
-
-[class*="-4"]{
-  //min-height: 1px;
-  width: 24%;
-  height: 30vh;
-  //border: solid red 1px;
-}
-
 .skills img{
-  //height: 100%; - to dodajemy w js
+  width: 65%;
   display: block;
-  margin: 0 auto;
-  vertical-align: middle;
+  margin:auto;
 }
-[class*="col-"]{ //tu transform na hover off
+
+[class*='col-'] {
+  float: left;
   transform: scale(1);
   transition-duration: 0.3s;
 }
-
 [class*="col-"]:hover{
   transform:scale(1.1);
   transition-duration: 0.3s;
+}
+
+.col-3 {
+  width: 33.33%;
+}
+
+.col-6 {
+  @media (max-width: 600px){
+    width: 50%;
+  }
 }

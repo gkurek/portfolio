@@ -6,30 +6,49 @@
 }
 
 .portfolio h1{
-  color: red;
-  font-weight: 600;
-  font-size: 6vh;
-  letter-spacing: .5vh;
-  text-align: center;
   padding: 8vh 0;
+}
+
+.slider{
+  width: 100%;
+  height: 60%;
+  overflow: hidden;
+  position: relative;
 }
 
 .img1{
   width: 750px;
   height: 60vh;
   background-color: red;
+  position: relative;
 }
+
 .img2{
   width: 750px;
   height: 60vh;
   background-color: blue;
+  position: relative;
 }
 
-.slider{
+.overlay {
+  position: absolute;
+    top: 0;
+    left: 0;
+  display: flex;
+  //flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 60vh;
-  overflow: hidden;
-  position: relative;
+  height: 100%;
+  z-index: 22;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.img1:hover > .overlay {
+    opacity: 1;
+    padding: 5px;
+    background: rgba(39,199,171,0.6);
 }
 
 .slider ul{

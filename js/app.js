@@ -15,27 +15,10 @@ $(window).scroll(function(e){
 //2=======================================
 $(".home p").delay(700).animate({opacity: 1}, 1000); //aniamcja junior front-end devloper i znaczek na dole
 
-//3=======================================
-//wielkosc obrazkow w skills
-var img = $(".skills").find("img"); //ustalamy wysokosc img w skills
-img.each(function(){
-  if ($(this).width()>$(this).height()){
-    $(this).css('height', 'auto');
-    $(this).css('width', '100%');
-  }else{
-    $(this).css('height', '100%');
-    $(this).css('width', 'auto');
-  }
-});
-
-//dla obrazkow szerszych niz wyzszych (bo w css mają height 100%, a te trzeba zmienic na width 100%)
-//czyli potem: napisac funkcje ktora sprawdza ile ma kazdy obazek i dla wyzszych ustawia tak a szerszych inaczej
-
-//4=====================================
+//3=====================================
 //scrollreveal - z nim mozna jeszcze sie troche pobawic potem, ew. w footerze itp
-
 window.sr = ScrollReveal();
-sr.reveal(".row-1, .row-2, .row-3", {
+sr.reveal(".row", {
   reset: true,
   delay: 400,
   duration: 1200,
@@ -43,7 +26,7 @@ sr.reveal(".row-1, .row-2, .row-3", {
   //viewOffset: {top: 48px, right: 0, bottom: 0, left: 0 } dla toolbaru przyklejonego z gory o wysokosci 48px
 });
 
-//5=======================================
+//4=======================================
 //zjazd do odpowiedniej sekcji na stronie
 function scroller(){
   var a = $(".menu-side, .menu-top, .downBtn").find("a") //czy to jest optymalne wyszukanie?
@@ -106,7 +89,10 @@ var sideBtn = nav.find(".sideBtn");
 var menuList = sideBtn.next();
 
 function check(){
-  var scrolled = $(window).scrollTop(); //jak dac zeby tu wartość przed scrolnięciem byla 0?
+  if ($(window).width() < 768){
+    return false;
+  }
+  var scrolled = $(window).scrollTop(); 
   if (scrolled > 51){
     if (sideBtn.hasClass("hidden"))
     {
@@ -123,6 +109,7 @@ function check(){
     sideBtn.addClass("hidden").css("opacity", "0"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
     nav.addClass("menu-top").removeClass("menu-side");
     menuList.removeClass("menu-side-list hidden").addClass("container");
+    menuList.css('height', 'auto');
   }
 }
 

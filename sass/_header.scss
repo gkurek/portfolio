@@ -1,7 +1,7 @@
 //menu-top
 .menu-top {
-  position: absolute; //zeby jak bedzie hidden
-  width: 100%; //do position: abs
+  position: absolute;
+  width: 100%;
   background: rgba(255, 255, 255, .2);
   border-bottom: 1px #549f93 solid;
   ul {
@@ -9,7 +9,10 @@
      justify-content: space-around;
   }
   li {
-     padding: 15px 20px;
+     padding: 15px;
+     @media (min-width: 768px) {
+       padding: 15px 20px;
+     }
      border-bottom: 2px transparent solid;
      transition: 0.2s ease-in;
   }
@@ -31,6 +34,10 @@
   right: 3em; //zmienic jednostki?
   color: red;
   z-index: 2;
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+  }
 }
 
 .sideBtn {
@@ -50,7 +57,6 @@
 .btnRadiusFix{
   border-radius: 50% 50% 0 0;
 }
-
 
 .menu-side-list {
   transition: 0.2s ease-in;
@@ -106,13 +112,14 @@
   color: #134b48;
   text-align: center;
   font-family: arial;
-  padding-top: 12vh;
+  padding-top: 10vh;
   height: 90vh;
   h1 {
+    color: #134b48;
     font-weight: 600;
     font-size: 6vh;
     letter-spacing: .5vh;
-    padding: 20px 0; //zmienic na % lub vh
+    padding: 2vh 0; //zmienic na % lub vh
     transition: 1s ease;
   }
   p {
@@ -123,11 +130,17 @@
     opacity: 0; //to do animacji w jQuery
   }
   img{
-    width: 33vh;
-    height: 33vh;
+    width: 200px;
     box-shadow: 5px 5px 15px #323232;
     border-radius: 50%;
-    margin-top: 30px; //cos innego, zeby byl zawsze posrodku?
+    position: absolute;
+    top: calc(50% - 125px);
+    left: calc(50% - 100px);
+    @media (min-width: 768px) {
+      position: static;
+      margin-top: 5vh;
+      width: 300px;
+    }
   }
 }
 
@@ -135,18 +148,25 @@
   color: red;
 }
 
-
 .downBtn{
   color: red;
   border: 2px solid red;
   border-radius: 50%;
-  width: 6vh;
-  height: 6vh;
+  width: 40px;
+  height: 40px;
   margin: 0 auto;
-  margin-top: 18vh; //to zrobic indaczej, przyczepic do dolnej krawedzi diva...
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  bottom: 10vh;
+  left: calc(50% - 20px);
+  @media (min-width: 767px) {
+    width: 54px;
+    height: 54px;
+    left: calc(50% - 27px);
+  }
+
   p {
     padding: 0;
     letter-spacing: 0;
