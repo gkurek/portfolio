@@ -1,4 +1,5 @@
 @import "reset";
+@import "typography";
 @import "starsParallax";
 @import "header";
 @import "skills";
@@ -6,9 +7,15 @@
 @import "contact";
 @import "about";
 @import "stickyMenu";
+@import "media";
 
 body{
   font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 header, section {
@@ -22,6 +29,15 @@ header {
   background-position: bottom center;
 }
 
+header:after { //fix linii 1px na dole obrazka tła
+  display: block;
+  content: 'x';
+  border-bottom: 1px black solid;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
 footer {
   width: 100%;
   height: 50vh;
@@ -31,9 +47,20 @@ footer {
 }
 
 .container {
-  width: 750px;
-  margin: 0 auto;
-  //border: 1px solid red;
+  // Od 320px do 767px - to mozna nazwac mobile
+  width: 100%;
+  min-width: 320px;
+
+  // Od 768px do 991px - to mozna nazwac tablet
+  @media (min-width: 768px) {
+    width: 738px;
+    margin: 0 auto;
+  }
+
+  // Od 992px wzwyz - to mozna nazwac maly desktop
+  @media (min-width: 992px) {
+
+  }
 }
 //to do:
 //define mixins for vendor prefixes to avoid repetitive code (sass)

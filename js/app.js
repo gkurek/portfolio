@@ -7,8 +7,6 @@ function parallax(){
     var scrolled = $(window).scrollTop();
     $('.starsLayer1').css('top', -(scrolled * 0.2) + 'px');
     $('.starsLayer2').css('top', -(scrolled * 0.3) + 'px');
-    //console.log(scrolled); //test
-    //wywolanie w evencie scroll - dac jeden taki event tylko?
 }
 $(window).scroll(function(e){
   parallax();
@@ -17,27 +15,10 @@ $(window).scroll(function(e){
 //2=======================================
 $(".home p").delay(700).animate({opacity: 1}, 1000); //aniamcja junior front-end devloper i znaczek na dole
 
-//3=======================================
-//wielkosc obrazkow w skills
-var img = $(".skills").find("img"); //ustalamy wysokosc img w skills
-img.each(function(){
-  if ($(this).width()>$(this).height()){
-    $(this).css('height', 'auto');
-    $(this).css('width', '100%');
-  }else{
-    $(this).css('height', '100%');
-    $(this).css('width', 'auto');
-  }
-});
-
-//dla obrazkow szerszych niz wyzszych (bo w css mają height 100%, a te trzeba zmienic na width 100%)
-//czyli potem: napisac funkcje ktora sprawdza ile ma kazdy obazek i dla wyzszych ustawia tak a szerszych inaczej
-
-//4=====================================
+//3=====================================
 //scrollreveal - z nim mozna jeszcze sie troche pobawic potem, ew. w footerze itp
-
 window.sr = ScrollReveal();
-sr.reveal(".row-1, .row-2, .row-3", {
+sr.reveal(".row", {
   reset: true,
   delay: 400,
   duration: 1200,
@@ -45,7 +26,7 @@ sr.reveal(".row-1, .row-2, .row-3", {
   //viewOffset: {top: 48px, right: 0, bottom: 0, left: 0 } dla toolbaru przyklejonego z gory o wysokosci 48px
 });
 
-//5=======================================
+//4=======================================
 //zjazd do odpowiedniej sekcji na stronie
 function scroller(){
   var a = $(".menu-side, .menu-top, .downBtn").find("a") //czy to jest optymalne wyszukanie?
@@ -67,7 +48,7 @@ function slider(){
   var li = slider.find("li");
   var ul = slider.find("ul");
 
-  var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400 (w 60)
+  var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400
   var widthLi = li.first().width();
 
   var first = li.first().clone(); //tworzymy sciemnione elementy
@@ -100,53 +81,81 @@ function slider(){
 slider();
 
 //7===========================================
-//sticky
-var x = $("ul").find("i").hide();
-var y = $("ul").find("li").first().hide();
+//sticky sidemenu
+var nav = $("nav");
+var icons = nav.find("ul").find("i").hide();
+var homeLi = nav.find("li").first().hide();
+var sideBtn = nav.find(".sideBtn");
+var menuList = sideBtn.next();
 
 function check(){
-  var scrolled = $(window).scrollTop();
-  var sideBtn = $(".sideBtn");
-  var nav = $("nav");
-  var menuList = sideBtn.next();
+  if ($(window).width() < 768){
+    return false;
+  }
+  var scrolled = $(window).scrollTop(); 
   if (scrolled > 51){
-    x.show();
-    y.show();
-    sideBtn.removeClass("hidden");
-    sideBtn.css("opacity", "+=1"); //ale nie da sie analogicznie zrobic w drugą stronę
-    nav.removeClass("menu-top");
-    nav.addClass("menu-side");
-    menuList.addClass("menu-side-list");
-    menuList.addClass("hidden");
-    menuList.removeClass("container");
+    if (sideBtn.hasClass("hidden"))
+    {
+      icons.show();
+      homeLi.show();
+      sideBtn.removeClass("hidden").css("opacity", "+=1"); //ale patentu z opacity nie da sie analogicznie zrobic w druga strone
+      nav.removeClass("menu-top").addClass("menu-side");
+      menuList.addClass("menu-side-list hidden").removeClass("container");
+    }
   }else {
-    x.hide();
-    y.hide();
-    sideBtn.addClass("hidden"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
-    sideBtn.css("opacity", "0")
-    nav.addClass("menu-top");
-    nav.removeClass("menu-side");
-    menuList.removeClass("hidden")
-    menuList.removeClass("menu-side-list");
-    menuList.addClass("container");
+    $('.sideBtn').removeClass('btnRadiusFix');
+    icons.hide();
+    homeLi.hide();
+    sideBtn.addClass("hidden").css("opacity", "0"); //ew. animate opacity, albo scroll reveal - zebypojawialo sie miękko
+    nav.addClass("menu-top").removeClass("menu-side");
+    menuList.removeClass("menu-side-list hidden").addClass("container");
+    menuList.css('height', 'auto');
   }
 }
 
-$(window).on("scroll", function(){ // alternatywa: $(window).scroll(function(){console.log("dziala")});
-  check();
+$(window).on("load scroll", function(){ // alternatywa: $(window).scroll(function(){...});
+  check(menuList);
 });
 
-//=======
-var sideBtn = $(".sideBtn");
-var menu = sideBtn.next();
+//=====================================
+//side button zmienia sie z kolka na polkolko
 sideBtn.on("click", function(){
-  menu.toggleClass("hidden");
-  sideBtn.toggleClass("btnRadiusFix");
+  if (menuList.hasClass('hidden')) {
+    menuList.removeClass('hidden');
+    sideBtn.addClass("btnRadiusFix");
+    setTimeout(function(){
+      $('.menu-side-list').css('height', '250px');
+      setTimeout(function(){
+        $('.menu-side-list').css('overflow', 'visible');
+      }, 200)
+    }, 10);
+  } else {
+    $('.menu-side-list').css('height', '0px');
+    $('.menu-side-list').css('overflow', 'hidden');
+    setTimeout(function(){
+      menuList.addClass('hidden');
+
+      sideBtn.removeClass("btnRadiusFix");
+    }, 200);
+  }
+
+
+
 })
 
-//http://www.cssscript.com/animated-sticky-side-navigation-bar-with-pure-css/
-//https://codyhouse.co/demo/stretchy-navigation/index.html#0
-
+//======================================
+// ruchoma ryba (wywolac w evencie scroll razem z paralaksą?)
+function fish(_curve, _offsetLeft){
+  var scrolled = $(window).scrollTop();
+  var fish = $(".fish");
+  if (scrolled > fish.position().top){
+      fish.css("left", (_offsetLeft + (scrolled-fish.position().top)) * $(window).width()/$(window).height() * _curve ); //zapisac -90 do zmiennej?
+  }
+}
+$(window).scroll(function(e){
+    fish(1, 0);
+});
+});
 
 
 // sticky menu
@@ -181,20 +190,3 @@ function sticky(){
 }
 sticky();
 */
-
-
-//=======================================================================
-// ruchoma ryba - wywolac w evencie scroll (podobnie jak paralakse)
-function fish(){
-  var scrolled = $(window).scrollTop();
-  var fish = $(".fish");
-  var movePosition = ((fish.position().top)-(scrolled*2));
-  console.log("movePosition: "+movePosition);
-  console.log("scrollTop: "+scrolled);
-  console.log("fish.position().top: "+fish.position().top);
-    fish.css("left", -(movePosition)*0.5);
-}
-$(window).scroll(function(e){
-    fish();
-});
-});
