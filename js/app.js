@@ -17,14 +17,14 @@ $(".home p").delay(700).animate({opacity: 1}, 1000); //aniamcja junior front-end
 
 //3=====================================
 //scrollreveal - z nim mozna jeszcze sie troche pobawic potem, ew. w footerze itp
-window.sr = ScrollReveal();
-sr.reveal(".row", {
-  reset: true,
-  delay: 400,
-  duration: 1200,
+//window.sr = ScrollReveal();
+//sr.reveal(".row", {
+//  reset: true,
+//  delay: 400,
+//  duration: 1200,
   //distance: 0, default podnosi 20px do gory, 0 zostaje w miejscu
   //viewOffset: {top: 48px, right: 0, bottom: 0, left: 0 } dla toolbaru przyklejonego z gory o wysokosci 48px
-});
+//});
 
 //4=======================================
 //zjazd do odpowiedniej sekcji na stronie
@@ -92,7 +92,7 @@ function check(){
   if ($(window).width() < 768){
     return false;
   }
-  var scrolled = $(window).scrollTop(); 
+  var scrolled = $(window).scrollTop();
   if (scrolled > 51){
     if (sideBtn.hasClass("hidden"))
     {
