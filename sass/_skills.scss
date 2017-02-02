@@ -3,19 +3,20 @@
 }
 
 .skills img{
-  width: 65%;
   display: block;
-  margin:auto;
+  margin: 0 auto 5vh auto;
+  height: 20vh;
+  width: auto;
+  transition-duration: 0.3s;
+
+  &:hover {
+    transform:scale(1.1);
+  }
 }
 
 [class*='col-'] {
   float: left;
   transform: scale(1);
-  transition-duration: 0.3s;
-}
-[class*="col-"]:hover{
-  transform:scale(1.1);
-  transition-duration: 0.3s;
 }
 
 .col-3 {

@@ -41,44 +41,47 @@ function scroller(){
 scroller();
 
 //6========================================
-function slider(){
-  var slider = $(".portfolio").find(".slider");
-  var next = slider.find(".nextButton");
-  var prev = slider.find(".prevButton");
-  var li = slider.find("li");
-  var ul = slider.find("ul");
-
-  var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400
-  var widthLi = li.first().width();
-
-  var first = li.first().clone(); //tworzymy sciemnione elementy
-  var last = li.last().clone();
-
-  ul.append(first).prepend(last); //dodajemy elementy do listy
-  ul.css("left", -widthLi); //przesuwamy go zeby byl pierwszym z listy nie ostatnim
-
-  ul.width((li.length+2)*widthLi); //zmienialy szerokosc ul
-
-  next.on("click", function(){
-    index++;
-    ul.animate({left: -(index*widthLi)}, function(){
-      if (li.length < index){
-        index = 1;
-        ul.css("left", -widthLi);
-      }
-    });
-  });
-  prev.on("click", function(){
-    index--;
-    ul.animate({left: -(index*widthLi)}, function(){
-      if (index < 1){
-        index = 2;
-        ul.css("left", -index*widthLi);
-      }
-    });
-  });
-}
-slider();
+// function slider(){
+//   var slider = $(".portfolio").find(".slider");
+//   var next = slider.find(".nextButton");
+//   var prev = slider.find(".prevButton");
+//   var li = slider.find("li");
+//   var ul = slider.find("ul");
+//
+//   var index = 1; // tu z zera tez zmienic na 1 bo pamietaj ze nizej przesuwamy widzialny obrazem o 400
+//   var widthLi = li.first().width();
+//
+//   var first = li.first().clone(); //tworzymy sciemnione elementy
+//   var last = li.last().clone();
+//
+//   ul.append(first).prepend(last); //dodajemy elementy do listy
+//   ul.css("left", -widthLi); //przesuwamy go zeby byl pierwszym z listy nie ostatnim
+//
+//   ul.width((li.length+2)*widthLi); //zmienialy szerokosc ul
+//
+//   next.on("click", function(){
+//     index++;
+//     ul.animate({left: -(index*widthLi)}, function(){
+//       if (li.length < index){
+//         index = 1;
+//         ul.css("left", -widthLi);
+//       }
+//     });
+//   });
+//   prev.on("click", function(){
+//     index--;
+//     ul.animate({left: -(index*widthLi)}, function(){
+//       if (index < 1){
+//         index = 2;
+//         ul.css("left", -index*widthLi);
+//       }
+//     });
+//   });
+// }
+// slider();
+$('.slider ul').owlCarousel({
+  items: 1
+});
 
 //7===========================================
 //sticky sidemenu
