@@ -80,7 +80,9 @@ scroller();
 // }
 // slider();
 $('.slider ul').owlCarousel({
-  items: 1
+  items: 1,
+  nav: true,
+  navText: ['&lt;', '&gt;'],
 });
 
 //7===========================================
