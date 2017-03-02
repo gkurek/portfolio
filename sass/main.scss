@@ -1,18 +1,19 @@
+@import "1header";
+@import "2about";
+@import "3skills";
+@import "4portfolio";
+@import "5contact";
+@import "6footer";
 @import "reset";
 @import "typography";
 @import "starsParallax";
-@import "header";
-@import "skills";
-@import "portfolio";
-@import "contact";
-@import "about";
 @import "stickyMenu";
-@import "media";
 @import "owl/owl.carousel";
 
 
+
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Lato", Arial, Helvetica, sans-serif;
 }
 
 img {
@@ -26,10 +27,9 @@ header {
 }
 
 section {
-  width: 100%;
-
+  //width: 100%;
   @media (min-width: 600px) {
-    height: 100vh;
+    //height: 100vh;
   }
 }
 
@@ -48,13 +48,6 @@ header:after { //fix linii 1px na dole obrazka tła
   width: 100%;
 }
 
-footer {
-  width: 100%;
-  height: 50vh;
-  background-image: url(../images/Lunar1.png);
-  background-size: cover;
-  background-position: top left;
-}
 
 .container {
   // Od 320px do 767px - to mozna nazwac mobile

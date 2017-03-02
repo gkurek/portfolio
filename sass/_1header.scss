@@ -11,7 +11,7 @@
   li {
      padding: 15px;
      @media (min-width: 768px) {
-       padding: 15px 20px;
+        padding: 15px 20px;
      }
      border-bottom: 2px transparent solid;
      transition: 0.2s ease-in;
@@ -30,8 +30,8 @@
 //menu-side (scrolled > 51px)
 .menu-side{
   position: fixed;
-  top: 3em; //zmienic jednostki?
-  right: 3em; //zmienic jednostki?
+  top: 3em;
+  right: 3em;
   color: red;
   z-index: 2;
   display: none;
@@ -42,7 +42,6 @@
 
 .sideBtn {
   transition: 100ms ease;
-  opacity: 0; //zeby pojawialo sie smooth, ale gdzie jest opacity1?
   display: flex;
   width: 45px;
   height: 45px;
@@ -64,7 +63,7 @@
   height: 0px;
   a {
     display: block;
-    position: relative; //zeby span mogl miec position: abs
+    position: relative;
   }
   .fa {
     width: 45px;
@@ -94,7 +93,7 @@
   }
 
   a:hover .fa {
-    color: #fff; // kolor ikon
+    color: #fff;
   }
   a:hover span {
     visibility: visible;
@@ -109,25 +108,23 @@
 
 //==========================
 .home {
-  color: #134b48;
   text-align: center;
-  font-family: arial;
-  padding-top: 10vh;
+  font-family: "Archivo Narrow", arial;
+  padding-top: 9vh;
   height: 90vh;
   h1 {
     color: #134b48;
-    font-weight: 600;
-    font-size: 6vh;
-    letter-spacing: .5vh;
-    padding: 2vh 0; //zmienic na % lub vh
-    transition: 1s ease;
+    font-weight: 900;
+    font-size: 7vh;
+    padding: 1vh 0;
   }
   p {
+    color: #134b48;
     font-weight: 400;
     font-size: 2.5vh;
     letter-spacing: 1vh;
-    padding: 10px 0; //zmienic na % lub vh
-    opacity: 0; //to do animacji w jQuery
+    padding: 10px 0;
+    opacity: 0;
   }
   img{
     width: 200px;
@@ -136,16 +133,12 @@
     position: absolute;
     top: calc(50% - 125px);
     left: calc(50% - 100px);
-    @media (min-width: 768px) {
+    @media (min-width: 485px) { //768
       position: static;
       margin-top: 5vh;
       width: 300px;
     }
   }
-}
-
-.home h1:hover{
-  color: red;
 }
 
 .downBtn{
@@ -166,8 +159,9 @@
     height: 54px;
     left: calc(50% - 27px);
   }
-
   p {
+    font-family: arial;
+    color: red;
     padding: 0;
     letter-spacing: 0;
     transform: rotate(90deg);

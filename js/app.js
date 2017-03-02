@@ -18,7 +18,7 @@ $(".home p").delay(700).animate({opacity: 1}, 1000); //aniamcja junior front-end
 //3=====================================
 //scrollreveal - z nim mozna jeszcze sie troche pobawic potem, ew. w footerze itp
 //window.sr = ScrollReveal();
-//sr.reveal(".row", {
+//sr.reveal(".col-3", {
 //  reset: true,
 //  delay: 400,
 //  duration: 1200,
