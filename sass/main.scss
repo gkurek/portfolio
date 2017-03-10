@@ -10,15 +10,13 @@
 @import "stickyMenu";
 @import "owl/owl.carousel";
 
-
-
 body{
   font-family: "Lato", Arial, Helvetica, sans-serif;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+  //max-width: 100%;
+  //height: auto;
 }
 
 header {
@@ -27,7 +25,7 @@ header {
 }
 
 section {
-  //width: 100%;
+  width: 100%;
   @media (min-width: 600px) {
     //height: 100vh;
   }
@@ -50,20 +48,18 @@ header:after { //fix linii 1px na dole obrazka tła
 
 
 .container {
-  // Od 320px do 767px - to mozna nazwac mobile
+  //320 - 767px: mobile
   width: 100%;
   min-width: 320px;
 
-  // Od 768px do 991px - to mozna nazwac tablet
+  //768 - 991px: tablet
   @media (min-width: 768px) {
     width: 738px;
     margin: 0 auto;
   }
 
-  // Od 992px wzwyz - to mozna nazwac maly desktop
+  //992px+ desktop
   @media (min-width: 992px) {
 
   }
 }
-//to do:
-//define mixins for vendor prefixes to avoid repetitive code (sass)
