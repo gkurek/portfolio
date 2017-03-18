@@ -1,5 +1,5 @@
 .contact{
-  height: 75vh;
+  height: 50vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,7 +7,7 @@
 }
 
 .contact h1{
-  padding-bottom: 6vh;
+  padding: 6vh 0;
 }
 
 .contact p{
@@ -19,7 +19,7 @@
   height: 60vh;
   width: 60%;
 }
-
+/* to do - formularz kontaktowy uzupelnic (php)
 form{
   display: block;
 }
@@ -35,13 +35,13 @@ input, textarea {
   margin-bottom: 15px;
   width: 100%;
   box-sizing: border-box;
-  outline: none; //niepotrzebne?
+  outline: none;
 }
 
 input:focus, textarea:focus {
     outline: 2px solid #b13232; //dodac jakis hover do submit, tez podswietlenie aktywnego inputu...
 }
-
+*/
 //kolor tekstu w ramkach formularza
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: white;
