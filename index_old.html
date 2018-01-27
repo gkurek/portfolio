@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grzegorz Kurek</title>
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+
+</head>
+<body>
+  <div class="starsLayer1"></div>
+  <div class="starsLayer2"></div>
+
+  <header>
+    <nav class="menu-top">
+      <div class="sideBtn hidden">
+        <i class="fa fa-bars fa-2x"></i>
+      </div>
+      <div class="container">
+          <ul>
+            <li><a href = "#home"><span>home</span><i class="fa fa-home"></i></a></li>
+            <li><a href = "#about"><span>about</span><i class="fa fa-user-circle"></i></a></li>
+            <li><a href = "#skills"><span>skills</span><i class="fa fa-html5"></i></a></li>
+            <li><a href = "#portfolio"><span>portfolio</span><i class="fa fa-code"></i></a></li>
+            <li><a href = "#contact"><span>contact</span><i class="fa fa-envelope"></i></a></li>
+          </ul>
+      </div>
+    </nav>
+    <div class = "container home" id="home">
+        <h1>Grzegorz Kurek</h1>
+        <p>Junior Web Developer</p>
+        <img src="images/gkPhoto.jpg"/>
+        <div class="downBtn">
+          <p><a href = ".about">></a></p>
+        </div>
+    </div>
+  </header>
+
+  <section id="section1">
+    <div class="container about" id="about">
+      <p>
+        Jestem początkującym front-end developerem z pasją do zdobywania wiedzy i rozwijania umiejętności. Chcę tworzyć przejrzyste i intuicyjne strony, w których funkcjonalność łączy się z estetyką. Jako <a href="http://www.pja.edu.pl/">student informatyki</a> mam rzetelne podstawy ogólnej wiedzy programistycznej, zaś zainteresowanie front-endem ugruntowałem podczas ukończonego ostatnio bootcampu <a href="http://coderslab.pl/front-end/">Coder's Lab "Front-end development".</a> Szukam pierwszej pracy lub płatnego stażu, który pozwoli mi wypłynąć na głębokie wody web developmentu.
+      </p>
+    </div>
+    <div class="fish"><img src="images/fish2.png"></div>
+  </section>
+
+  <section>
+    <div class="container skills" id="skills">
+      <h1>MY SKILLS</h1>
+      <div class="row">
+          <div class="col-3 col-6"><img src="images/logo/html.png"></div>
+          <div class="col-3 col-6"><img src="images/logo/css.png"></div>
+          <div class="col-3 col-6"><img src="images/logo/js.png"></div>
+      </div>
+      <div class="row">
+          <div class="col-3 col-6"><img src="images/logo/jquery.png"></div>
+          <div class="col-3 col-6"><img src="images/logo/sass.png"></div>
+          <div class="col-3 col-6"><img src="images/logo/github.png"></div>
+      </div>
+      <div class="row">
+          <div class="col-3 col-6"><img src="images/logo/php.png"></div>
+          <div class="col-3 col-6"><img src="images/logo/wp.png"></div>
+          <div class="col-3 col-6"><img src="images/logo/ps.png"></div>
+      </div>
+    </section>
+
+  <section>
+    <div class="container portfolio" id="portfolio">
+      <h1>MY PORTFOLIO</h1>
+        <div class="slider">
+          <ul class="owl-carousel">
+              <li>
+                  <div class="overlay">
+                    <h2>SIT ON CHAIR</h2><br>
+                    <p>exercise in cutting psd file</p><br>
+                    <p><a target="_blank" href="http://www.grzegorzkurek.pl/projects/chairProject/index.html">click</a></p>
+                  </div>
+                  <img src="images/warsztat1.jpg">
+              </li>
+              <li>
+                  <div class="overlay"><h2>MORE SOON</h2></div>
+                  <img src="images/warsztat2.jpg">
+              </li>
+          </ul>
+        </div>
+    </div>
+  </section>
+
+  <section>
+    <div class = "container contact" id="contact">
+     <h1>CONTACT</h1>
+
+     <div class="formbox">
+       <form action="mailto:grzegorz.tomasz.kurek@gmail.com" method="post">
+         <input type="text" name="name" placeholder="Name">
+         <input type="text" name="email" placeholder="Email">
+         <textarea name="text" placeholder="Message" rows="5"></textarea>
+         <input type="submit" value="SUBMIT">
+       </form>
+
+      <div class="menu-social">
+        <a href="https://www.linkedin.com/in/grzegorz-kurek/" title="profil LinkedIn"><i class="fa fa-linkedin fa-2x"></i></a>
+        <a href="https://github.com/GoodGuyBilly" title="profil GitHub"><i class="fa fa-github fa-2x"></i></a>
+        <a href="mailto:grzegorz.tomasz.kurek@gmail.com" title="wyślij mi maila"><i class="fa fa-envelope-o fa-2x"></i></a>
+        <a href="http://grzegorzkurek.pl/files/CV_Grzegorz_Kurek.pdf" title="zobacz moje CV"><i class="fa fa-file-o fa-2x"></i></a>
+      </div>
+     </div>
+    </div>
+  </section>
+
+  <footer></footer>
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/owl.carousel.js"></script>
+<script src="js/app.js"></script>
+<script src="https://unpkg.com/scrollreveal@3.3.2/dist/scrollreveal.min.js"></script>
+<script src="prefixfree.js"></script>
+</body>
+</html>
