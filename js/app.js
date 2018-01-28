@@ -1,21 +1,16 @@
 $(function() {
-console.log("");
-
-
 console.log("curious little creature are you :D");
 
-// $('.container').click(function(){
-//     $('.d1').fadeToggle('fast'); 
-//     $('.img').fadeToggle('fast'); 
-//     // $('.d1').toggleClass("hidden"); 
-//     // $('.img').toggleClass("hidden"); 
-// })
+// $('.fa').mouseenter(function(){
+//     let r = Math.floor(Math.random() * 255); 
+//     let g = Math.floor(Math.random() * 255); 
+//     let b = Math.floor(Math.random() * 255); 
+//     let color = "rgb("+r+","+g+","+b+")"
+//     $(this).css("color", color); 
+// }).mouseleave(function(){
+//     $(this).css("color", "white"); 
+// });
 
-// $('.img').click(function(){
-//     $('.d1').fadeToggle('fast'); 
-//     $('.img').fadeToggle('fast'); 
-//     // $('.d1').toggleClass("hidden"); 
-//     // $('.img').toggleClass("hidden"); 
-// })
+
 
 });
