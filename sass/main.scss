@@ -12,31 +12,12 @@ body {
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 	z-index: 2; 
-}
-
-.img{
-	background-image: url("../images/soon.jpg");
-	background-position: center; 
-	background-repeat: no-repeat; 
-	background-attachment: initial;
-	background-size: contain; 
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    height: 50%;
-	z-index: 1;
-	display: none; 
-}
-
-img {
-	max-width: 100%;
-	height: auto;
+	// cursor: pointer; 
 }
 
 .d1 {
 	color: white; 
+	padding-bottom: 10px; 
 }
 
 .mdl-spinner {
@@ -48,4 +29,44 @@ img {
 	border-color: white; 
 }
 
+.icons {
+	position: relative;
+    left: calc(50% - 38px);
+}
+
+ .fa {
+	 color: white; 
+	 &.fa-github {
+		 padding-right: 8px; 
+	 }
+	 &:hover{
+		 color: red; 
+	 }
+ }
+
+
+
+
+
+// .img{
+// 	background-image: url("../images/soon.jpg");
+// 	background-position: center; 
+// 	background-repeat: no-repeat; 
+// 	background-attachment: initial;
+// 	background-size: contain; 
+//     position: absolute;
+//     left: 50%;
+//     top: 50%;
+//     transform: translate(-50%, -50%);
+//     width: 90%;
+//     height: 50%;
+// 	z-index: 1;
+// 	display: none; 
+// 	cursor: pointer; 
+// }
+
+// img {
+// 	max-width: 100%;
+// 	height: auto;
+// }
 
