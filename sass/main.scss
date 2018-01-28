@@ -12,7 +12,6 @@ body {
 	-ms-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 	z-index: 2; 
-	// cursor: pointer; 
 }
 
 .d1 {
@@ -40,33 +39,7 @@ body {
 		 padding-right: 8px; 
 	 }
 	 &:hover{
-		 color: red; 
+		 color: mediumvioletred; 
+		 transition: 0.2s;
 	 }
  }
-
-
-
-
-
-// .img{
-// 	background-image: url("../images/soon.jpg");
-// 	background-position: center; 
-// 	background-repeat: no-repeat; 
-// 	background-attachment: initial;
-// 	background-size: contain; 
-//     position: absolute;
-//     left: 50%;
-//     top: 50%;
-//     transform: translate(-50%, -50%);
-//     width: 90%;
-//     height: 50%;
-// 	z-index: 1;
-// 	display: none; 
-// 	cursor: pointer; 
-// }
-
-// img {
-// 	max-width: 100%;
-// 	height: auto;
-// }
-
