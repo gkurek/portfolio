@@ -1,16 +1,8 @@
 * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
-::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
 
-::selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
 
 .browsehappy {
     margin: 0.2em 0;
@@ -26,19 +18,20 @@ html {
 }
 
 body {
-    display: -webkit-box;   
-    display: -ms-flexbox;   
-    display: flex;          
-    -webkit-box-align: center;
-    -moz-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -moz-box-pack: center;
-    -ms-flex-pack: center;
-    -webkit-justify-content: center;
-    justify-content: center;
+    // display: -webkit-box;   
+    // display: -ms-flexbox;   
+    // display: flex;          
+    // -webkit-box-align: center;
+    // -moz-box-align: center;
+    // -ms-flex-align: center;
+    // -webkit-align-items: center;
+    // align-items: center;
+    // -webkit-box-pack: center;
+    // -moz-box-pack: center;
+    // -ms-flex-pack: center;
+    // -webkit-justify-content: center;
+    // justify-content: center;
+    position: relative;
     margin: 0;
     height: 100%;
     width: 100%;
@@ -58,13 +51,14 @@ a {
 }
 
 .main{
-    max-width: 50%;
-    height: 10rem;
+    position: absolute; 
+    transform: translate(-50%, -50%);
+    top: 50%; 
+    left: 50%;
     text-align: center;
     h1{
         margin-bottom: 0;
         font-size: 2.5em;
-        text-shadow: 1px 1px rgb(29, 31, 33);
         font-weight: 300;
     }
 
@@ -73,4 +67,14 @@ a {
         font-size: 1.5em;
         font-weight: 100;
     }
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
 }
