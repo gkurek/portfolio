@@ -1,0 +1,76 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+.browsehappy {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1.4;    
+    height: 100%;
+}
+
+body {
+    display: -webkit-box;   
+    display: -ms-flexbox;   
+    display: flex;          
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(27, 29, 31);
+    color: rgb(158, 160, 160);
+}
+
+a {
+    color: rgb(149, 151, 151);
+    text-decoration: none;
+}
+
+.links{
+    a {
+        padding: 0 0.2em 0 0.2em;
+    }
+}
+
+.main{
+    max-width: 50%;
+    height: 10rem;
+    text-align: center;
+    h1{
+        margin-bottom: 0;
+        font-size: 2.5em;
+        text-shadow: 1px 1px rgb(29, 31, 33);
+        font-weight: 300;
+    }
+
+    p{
+        margin-top: 0;
+        font-size: 1.5em;
+        font-weight: 100;
+    }
+}
