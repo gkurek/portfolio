@@ -1,80 +1,79 @@
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
-
-
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-html {
-    font-size: 1em;
-    line-height: 1.4;    
-    height: 100%;
-}
-
-body {
-    // display: -webkit-box;   
-    // display: -ms-flexbox;   
-    // display: flex;          
-    // -webkit-box-align: center;
-    // -moz-box-align: center;
-    // -ms-flex-align: center;
-    // -webkit-align-items: center;
-    // align-items: center;
-    // -webkit-box-pack: center;
-    // -moz-box-pack: center;
-    // -ms-flex-pack: center;
-    // -webkit-justify-content: center;
-    // justify-content: center;
+html, body {
+    line-height: 1.4;
     position: relative;
-    margin: 0;
     height: 100%;
     width: 100%;
-    background-color: rgb(27, 29, 31);
-    color: rgb(158, 160, 160);
+    background-color: #1a1d1e;
+    color: #7c8c9c;
+    overflow: hidden;
 }
 
 a {
-    color: rgb(149, 151, 151);
+    color: #7c8c9c;
     text-decoration: none;
 }
-
-.links{
-    a {
-        padding: 0 0.2em 0 0.2em;
-    }
-}
+   
 
 .main{
     position: absolute; 
     transform: translate(-50%, -50%);
-    top: 50%; 
+    top: 45%; 
     left: 50%;
     text-align: center;
     h1{
-        margin-bottom: 0;
-        font-size: 2.5em;
+        margin: 0;
+        font-size: 2.3em;
         font-weight: 300;
     }
 
     p{
-        margin-top: 0;
-        font-size: 1.5em;
-        font-weight: 100;
+        margin: 0 0 .3em 0;
+        font-size: 1.3em;
+        font-weight: 200;
     }
 }
 
+.icons{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    a {
+        padding: 0 0.2em 0 0.2em;
+        transition: all .2s ease-out;
+        &:hover{
+            color: #d94da9;
+        }   
+    }
+}
+.projects{
+    // width: 100%;
+    position: absolute;
+    opacity:0;
+    transform: translatex(-100%);
+    a {
+        padding: 0 0.2em 0 0.2em;
+        transition: all .2s ease-out;
+        font-weight: 300;
+        text-decoration: underline;
+        &:hover{
+            color: #d94da9;
+        }   
+    }
+}
+
+
 ::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
+    background: #d94da9;
 }
 
 ::selection {
-    background: #b3d4fc;
-    text-shadow: none;
+    background: #d94da9;
 }
+
+
+@import 'animation';
