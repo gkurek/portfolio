@@ -10,6 +10,7 @@ html, body {
     background-color: #1a1d1e;
     color: #7c8c9c;
     overflow: hidden;
+    margin: 0;
 }
 
 a {
@@ -39,7 +40,7 @@ a {
 
 .icons{
     position: absolute;
-    left: 50%;
+    left: 48%;
     transform: translateX(-50%);
     -webkit-transform: translateX(-50%);
     a {
@@ -56,13 +57,16 @@ a {
     opacity:0;
     transform: translatex(-100%);
     a {
-        padding: 0 0.2em 0 0.2em;
+        padding: 0 .3em .3em;
         transition: all .2s ease-out;
-        font-weight: 300;
+        font-weight: 600;
         text-decoration: underline;
         &:hover{
             color: #d94da9;
         }   
+    }
+    i {
+        font-size: 14px;
     }
 }
 
@@ -77,3 +81,4 @@ a {
 
 
 @import 'animation';
+@import 'modal';

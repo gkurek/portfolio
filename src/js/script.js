@@ -10,7 +10,7 @@ function animLeft(){
     document.querySelector('.projects').classList.add("fadeInLeft");
 }
 
-document.querySelector(".fa-arrow-left").addEventListener('click', animRight)
+document.querySelector(".fa-chevron-left").addEventListener('click', animRight)
 
 function animRight(){
     document.querySelector('.icons').classList.remove("fadeOutRight")
@@ -18,3 +18,31 @@ function animRight(){
     document.querySelector('.projects').classList.remove("fadeInLeft");
     document.querySelector('.projects').classList.add("fadeOutLeft");
 }
+
+document.querySelector("#patience-modal").addEventListener('click', modalOn);
+
+function modalOn(e){
+    
+    let start = e.timeStamp
+    let time
+    
+    document.querySelector(".modal").classList.add("show")
+    document.querySelector(".modal").classList.add("fadeIn")
+    console.log('asd');
+    document.addEventListener('click', (e)=> {
+        let end = e.timeStamp;
+        time = (end - start) / 1000;
+        time = time.toFixed(3)
+        console.log(time);
+        if (time > 0) {
+            gameEnd(time);
+        }
+    })
+}
+
+function gameEnd(time){
+    document.querySelector('.game-header').textContent = "YOU LOST!"
+    document.querySelector('.game-result').textContent = "your score: " + time +"s - that's pretty bad"   
+    document.querySelector('.fa-spinner').style.display = 'none';
+}
+
