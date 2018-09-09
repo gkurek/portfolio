@@ -8,7 +8,8 @@ html, body {
   width: 100%;
   background-color: #1a1d1e;
   color: #7c8c9c;
-  overflow: hidden; }
+  overflow: hidden;
+  margin: 0; }
 
 a {
   color: #7c8c9c;
@@ -31,7 +32,7 @@ a {
 
 .icons {
   position: absolute;
-  left: 50%;
+  left: 48%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%); }
   .icons a {
@@ -45,12 +46,14 @@ a {
   opacity: 0;
   transform: translatex(-100%); }
   .projects a {
-    padding: 0 0.2em 0 0.2em;
+    padding: 0 .3em .3em;
     transition: all .2s ease-out;
-    font-weight: 300;
+    font-weight: 600;
     text-decoration: underline; }
     .projects a:hover {
       color: #d94da9; }
+  .projects i {
+    font-size: 14px; }
 
 ::-moz-selection {
   background: #d94da9; }
@@ -77,6 +80,21 @@ a {
 .fadeInLeft {
   -webkit-animation-name: fadeInLeft;
   animation-name: fadeInLeft; }
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn; }
+
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut; }
+
+.spin {
+  -webkit-animation-name: spin;
+  animation-name: spin;
+  animation-duration: 1500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; }
 
 @-webkit-keyframes fadeOutRight {
   from {
@@ -138,5 +156,62 @@ a {
     transform: translateX(-65%); }
   to {
     opacity: 0; } }
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@keyframes fadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+@keyframes fadeOut {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0; } }
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  min-width: 300px;
+  height: 20%;
+  background-color: #2e3440;
+  transform: translate(-50%, -50%);
+  -webkit-box-shadow: 0px 6px 24px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 6px 24px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 6px 24px 2px rgba(0, 0, 0, 0.75);
+  border-radius: 5px;
+  text-align: center; }
+  .modal .center-container {
+    color: #e6e6e6;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+    .modal .center-container h2 {
+      font-size: .9em;
+      font-weight: 300; }
+
+.show {
+  display: block; }
 
 /*# sourceMappingURL=main.css.map */
