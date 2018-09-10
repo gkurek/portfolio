@@ -35,7 +35,7 @@
 .spin{
 	-webkit-animation-name: spin;
 	animation-name: spin;
-	animation-duration: 1500ms;
+	animation-duration: 2000ms;
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
 }
@@ -141,6 +141,9 @@
 
 	to {
 		opacity: 1;
+		// 0% {opacity: 0;}
+		// 1% {opacity: 0; transform: scaleY(1)}
+		// opacity: 1; transform: scaleY(1)
 	}
 }
 
@@ -151,6 +154,9 @@
 
 	to {
 		opacity: 1;
+		// 0% {opacity: 0;}
+		// 1% {opacity: 0; transform: scaleY(1)}
+		// opacity: 1; transform: scaleY(1)
 	}
 }
 

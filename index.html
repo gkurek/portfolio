@@ -18,12 +18,12 @@
 		
 		<main class="main">
 			<h1>Grzegorz Kurek</h1>
-			<p>Front-End Developer</p>
+			<p> Front-End Developer</pmain>
 			<p class="projects animated">
-				<a href="#"><i class="fas fa-chevron-left"></i></a>
-				<a id="patience-modal" href="#">1</a>
-				<a href="#">2</a>
-				<a href="#">3</a>
+				<a class="projects--nav" href="#"><i class="fas fa-chevron-left"></i></a>
+				<a class="projects--1" href="#">1</a>
+				<a class="projects--2" href="#">2</a>
+				<a class="projects--3" href="#">3</a>
 			</p>
 			<p class="icons animated">
 				<a href="https://github.com/gkurek" title="GitHub profile" rel="external"><i class="fab fa-github"></i></a>
@@ -31,12 +31,16 @@
 				<a id="projects" href="#" title="my projects" rel="external"><i class="fas fa-code"></i></a>
 			</p>
 		</main>
-		<div class="modal-overlay"></div>
 		<div class="modal animated">
 			<div class="center-container">
+				<p>score: xxx</p>
 				<h2 class="game-header">patience game</h2>
-				<p class="game-result"></p>
+				<!-- <p class="game-result">(But you did see that coming right?)</p> -->
 				<i class="fas fa-spinner spin"></i>
+			</div>
+			<div class="game-options">
+				<a href="#">see stats</a>
+				<a href="#" onclick="modalOff()">close</a>
 			</div>
 		</div>
 

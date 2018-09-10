@@ -1,5 +1,19 @@
+let DOMstrings = {
 
-
+    // inputType: '.add__type', 
+    // inputDescription: '.add__description', 
+    // inputValue: '.add__value',
+    // inputBtn: '.add__btn', 
+    // incomeContainer: '.income__list',
+    // expensesContainer: '.expenses__list', 
+    // budgetLabel: '.budget__value', 
+    // incomeLabel: '.budget__income--value', 
+    // expensesLabel: '.budget__expenses--value',
+    // percentageLabel: '.budget__expenses--percentage', 
+    // container: '.container', 
+    // expensesPercLabel: '.item__percentage', 
+    // dateLabel: '.budget__title--month'
+}
 
 document.querySelector('#projects').addEventListener('click', animLeft)
 
@@ -19,7 +33,7 @@ function animRight(){
     document.querySelector('.projects').classList.add("fadeOutLeft");
 }
 
-document.querySelector("#patience-modal").addEventListener('click', modalOn);
+document.querySelector(".projects--1").addEventListener('click', modalOn);
 
 function modalOn(e){
     
@@ -28,12 +42,11 @@ function modalOn(e){
     
     document.querySelector(".modal").classList.add("show")
     document.querySelector(".modal").classList.add("fadeIn")
-    console.log('asd');
+
     document.addEventListener('click', (e)=> {
         let end = e.timeStamp;
         time = (end - start) / 1000;
         time = time.toFixed(3)
-        console.log(time);
         if (time > 0) {
             gameEnd(time);
         }
@@ -41,8 +54,20 @@ function modalOn(e){
 }
 
 function gameEnd(time){
-    document.querySelector('.game-header').textContent = "YOU LOST!"
-    document.querySelector('.game-result').textContent = "your score: " + time +"s - that's pretty bad"   
+    document.querySelector('.game-header').textContent = "YOU LOST!";
+    document.querySelector('.game-header').style.fontSize = '3em';
+    // document.querySelector('.game-result').style.display = 'block';
+    document.querySelector('.game-options').style.display = 'block';
     document.querySelector('.fa-spinner').style.display = 'none';
+    
+    
+    // document.querySelector('.game-result').textContent = "your score: " + time +"s - that's pretty bad"   
 }
 
+function modalOff(){
+    document.querySelector(".modal").classList.add("fadeOut")
+    document.querySelector(".modal").classList.remove("fadeIn")
+    document.querySelector(".modal").classList.remove("show")
+}
+
+// document.querySelector(".projects--1").addEventListener('click', modalOff);

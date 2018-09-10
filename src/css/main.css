@@ -92,7 +92,7 @@ a {
 .spin {
   -webkit-animation-name: spin;
   animation-name: spin;
-  animation-duration: 1500ms;
+  animation-duration: 2000ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear; }
 
@@ -206,10 +206,30 @@ a {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); }
-    .modal .center-container h2 {
+    transform: translate(-50%, -50%);
+    width: 100%; }
+    .modal .center-container .game-header {
       font-size: .9em;
-      font-weight: 300; }
+      font-weight: 300;
+      margin: 0; }
+    .modal .center-container .game-result {
+      display: none;
+      font-size: .7em;
+      margin-top: 0;
+      position: relative;
+      top: -7px; }
+  .modal .game-options {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    display: none;
+    bottom: 20px; }
+    .modal .game-options a {
+      color: #e6e6e6;
+      padding: 0 .3em .3em;
+      font-weight: 600;
+      text-decoration: underline;
+      font-size: .7em; }
 
 .show {
   display: block; }
