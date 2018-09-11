@@ -32,16 +32,18 @@
 			</p>
 		</main>
 		<div class="modal animated">
-			<div class="center-container">
-				<p>score: xxx</p>
-				<h2 class="game-header">patience game</h2>
-				<!-- <p class="game-result">(But you did see that coming right?)</p> -->
-				<i class="fas fa-spinner spin"></i>
-			</div>
+			<h2 class="game-header">patience game</h2><!-- <p>score: xxx</p> -->
+			<!-- <p class="game-result">(But you did see that coming right?)</p> -->
+			<h2 class="game-result center-xy"></h2>
+			<p class="center-xy"><i class="fas fa-spinner spin"></i></p>
 			<div class="game-options">
-				<a href="#">see stats</a>
+				<a href="#" onclick="seeStats()">see stats</a>
 				<a href="#" onclick="modalOff()">close</a>
 			</div>
+		</div>
+		<div class="modal-stats">
+			<p class="stats"></p>
+			<a href="#" onclick="modalOff()">close</a>
 		</div>
 
 	<script src="src/js/script.js"></script>

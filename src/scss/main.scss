@@ -13,11 +13,23 @@ html, body {
     margin: 0;
 }
 
+p{
+    margin: 0;
+    padding: 0;
+}
+
 a {
     color: #7c8c9c;
     text-decoration: none;
 }
    
+.center-xy{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .main{
     position: absolute; 

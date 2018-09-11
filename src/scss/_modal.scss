@@ -1,4 +1,5 @@
-.modal{
+.modal, .modal-stats{
+    color: #e6e6e6;
     display: none;
     position: fixed; 
     top: 50%; 
@@ -12,36 +13,34 @@
     -webkit-box-shadow: 0px 6px 24px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 6px 24px 2px rgba(0,0,0,0.75);
     box-shadow: 0px 6px 24px 2px rgba(0,0,0,0.75);
-    border-radius: 5px;
+    border-radius: 3px;
     text-align: center;
+    position: relative;
 
     // opacity: 0;
     // transform: scaleY(0);
-
-    .center-container{
-        // color: #d94da9;
-        
-        color: #e6e6e6;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    // color: #d94da9;
+    // color: #e6e6e6;
+    
+    .game-header {
+        font-size: .9em;
+        font-weight: 300;
+        margin: 0;
+        position: absolute; 
         width: 100%;
-
-        
-        .game-header {
-            font-size: .9em;
-            font-weight: 300;
-            margin: 0;
-        }
-        .game-result{
-            display: none;
-            font-size: .7em;
-            margin-top: 0;
-            position: relative;
-            top: -7px;
-        }
+        top: 30px;
     }
+
+    .game-result{
+        display: none;
+        font-size: 3em;
+        margin-top: 0;
+        font-weight: 300; 
+        width: 100%;
+        // position: relative;
+        // top: -7px;
+    }
+
     .game-options{
         text-align: center;
         width: 100%;
