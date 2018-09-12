@@ -48,15 +48,16 @@ function modalOn(e){
         time = time.toFixed(3);
         if (time > 0 && !clicked) {
             gameEnd(time);
-            timeGlobal = time; //send to server
+            sendTime(time) //send time to serv
+            timeCurr = time
             clicked = true;
+            
         }
     })
 }
 
 function gameEnd(time){
     gameHeader.style.display = 'none'
-    // gameHeader.textContent = 'score: '+time+'s'
     gameResult.textContent = "YOU LOST!";
     gameResult.style.display = 'block'
     gameOptions.style.display = 'block';
@@ -74,13 +75,35 @@ function modalOff(){
     gameOptions.style.display = 'none';
 }
 
-
 function seeStats(){
     modalStats.classList.add('show');
     modal.classList.remove('show');
-    gameStats.textContent = 'your score: '+timeGlobal+'s'
+    gameStats.textContent = 'your score: '+timeCurr+'s'
 
-    //read from serwer
-
-
+    const xhr = new XMLHttpRequest();
+    const url='https://grzegorzkurek.pl/test/api.php';
+    xhr.open("GET", url);
+    xhr.send();
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200){
+            if (xhr.response){
+                console.log(JSON.parse(xhr.response));
+                timeGlobal = JSON.parse(xhr.response)
+            }
+        }
+    }
 }
+
+function sendTime(time){
+    const xhr = new XMLHttpRequest();
+    const url='https://grzegorzkurek.pl/test/add.php?time='+time;
+    xhr.open("GET", url);
+    xhr.send();
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200){
+            if (xhr.response){
+                console.log(JSON.parse(xhr.response));
+            }
+        }
+    }
+} 
