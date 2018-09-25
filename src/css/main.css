@@ -3,6 +3,7 @@
 *::before {
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
 html, body {
@@ -28,6 +29,8 @@ a {
   position: absolute;
   top: 50%;
   left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
 
 .main {
@@ -44,22 +47,31 @@ a {
 
 .icons {
   position: absolute;
-  left: 48%;
-  transform: translateX(-50%);
-  -webkit-transform: translateX(-50%); }
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%); }
   .icons a {
-    padding: 0 .4rem;
+    padding: 0 .8rem;
     text-decoration: none;
     transition: all .2s ease-out; }
+    @media only screen and (min-width: 768px) {
+      .icons a {
+        padding: 0 .4rem; } }
 
 .projects {
   position: absolute;
   opacity: 0;
+  -webkit-transform: translatex(-100%);
+  -ms-transform: translatex(-100%);
   transform: translatex(-100%); }
   .projects a {
-    padding: 0 .6rem;
+    padding: 0 .9rem;
     transition: all .2s ease-out;
     font-weight: 600; }
+    @media only screen and (min-width: 768px) {
+      .projects a {
+        padding: 0 .6rem; } }
   .projects i {
     font-size: 1.4rem; }
 
@@ -233,6 +245,8 @@ a {
     position: absolute;
     bottom: 8px;
     left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
     transform: translateX(-50%); }
   .modal-stats p[class*="stats"] {
     font-size: 1.4rem;

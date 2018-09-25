@@ -74,8 +74,6 @@ function modalOff(){
     gameSpinner.style.display = 'block';
     gameHeader.textContent = 'patience game';
     gameHeader.style.display = 'block';
-    // gameResult.textContent = "";
-    // gameResult.style.display = 'none';
     gameOptions.style.display = 'none';
 }
 
@@ -94,7 +92,7 @@ function seeStats(){
                 let res = JSON.parse(xhr.response)
                 stats = calcStats(res)
                 let hiLow = timeCurr > stats.avg ?  'above' : 'below';
-                gameStats2.innerHTML = "that's a bit " + hiLow + " our <span>" + stats.avg + "s</span> average";
+                gameStats2.innerHTML = "That's a bit " + hiLow + " our <span>" + stats.avg + "s</span> average.";
                 let level = timeCurr < stats.avg ? 'TRIGGER HAPPY' : 'ZEN APPRENTICE'
                 gameScore2.textContent = level
             }
