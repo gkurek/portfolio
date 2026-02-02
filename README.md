@@ -47,7 +47,7 @@ npm run check
 npm run format
 ```
 
-Dev server: http://localhost:4321
+Dev server: [http://localhost:4321](http://localhost:4321)
 
 ## Production build
 
@@ -73,7 +73,7 @@ PostHog does not load on `localhost` or when the key is unset.
 2. `npm run build`
 3. Upload everything from `dist/` to www root
 
-No PHP or server-side runtime required.
+No PHP or server-side runtime required for this version
 
 ## Project structure
 
