@@ -33,5 +33,11 @@ export const site = {
       path: "/projects/natours",
       openInNewTab: true,
     },
+    {
+      id: "sandbox",
+      label: "3",
+      title: "sandbox",
+      path: "/projects/sandbox",
+    },
   ],
 } as const;
