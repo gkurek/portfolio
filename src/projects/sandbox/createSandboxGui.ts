@@ -3,7 +3,10 @@ import * as THREE from 'three';
 import type { Controller } from 'lil-gui';
 import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { applySandboxDefaults, sandboxDefaults } from './sandboxDefaults';
+import type { SandboxBackground } from './createSandboxBackground';
 import { pickRandomColorPair } from './sandboxColorPairs';
+import { syncSandboxMaterials, applySandboxMaterialColor } from './createSandboxText';
+import { resetPulseVisuals, type PulseLetter, type PulseState } from './sandboxPulse';
 
 interface SandboxGuiOptions {
   scene: THREE.Scene;
@@ -13,6 +16,9 @@ interface SandboxGuiOptions {
   rimLight: THREE.DirectionalLight;
   material: THREE.MeshStandardMaterial;
   controls: OrbitControls;
+  letters: PulseLetter[];
+  pulse: PulseState;
+  background: SandboxBackground;
 }
 
 function colorToHex(color: THREE.ColorRepresentation) {
@@ -40,6 +46,12 @@ type ControlsParams = {
   damping: boolean;
   dampingFactor: number;
 };
+type PulseParams = {
+  enabled: boolean;
+  beat: number;
+  scaleBoost: number;
+  emissiveBoost: number;
+};
 
 export function createSandboxGui({
   scene,
@@ -49,12 +61,15 @@ export function createSandboxGui({
   rimLight,
   material,
   controls,
+  letters,
+  pulse,
+  background,
 }: SandboxGuiOptions) {
   const gui = new GUI({ title: 'sandbox' });
   const controllers: Controller[] = [];
 
   const sceneParams: SceneParams = {
-    background: sandboxDefaults.scene.background,
+    background: colorToHex(scene.background as THREE.Color),
   };
 
   controllers.push(
@@ -63,14 +78,15 @@ export function createSandboxGui({
       .name('background')
       .onChange((value: string) => {
         scene.background = new THREE.Color(value);
+        background.setColor(value);
       }),
   );
 
   const materialParams: MaterialParams = {
-    color: sandboxDefaults.material.color,
-    emissiveIntensity: sandboxDefaults.material.emissiveIntensity,
-    metalness: sandboxDefaults.material.metalness,
-    roughness: sandboxDefaults.material.roughness,
+    color: colorToHex(material.color),
+    emissiveIntensity: material.emissiveIntensity,
+    metalness: material.metalness,
+    roughness: material.roughness,
   };
 
   const materialFolder = gui.addFolder('material');
@@ -79,25 +95,29 @@ export function createSandboxGui({
       .addColor(materialParams, 'color')
       .name('color')
       .onChange((value: string) => {
-        const nextColor = new THREE.Color(value);
-        material.color.copy(nextColor);
-        material.emissive.copy(nextColor);
+        applySandboxMaterialColor(material, letters, value);
       }),
     materialFolder
       .add(materialParams, 'emissiveIntensity', 0, 1, 0.01)
       .name('emissive')
       .onChange((value: number) => {
+        pulse.restEmissive = value;
         material.emissiveIntensity = value;
+        if (!pulse.enabled) {
+          syncSandboxMaterials(material, letters, true);
+        }
       }),
     materialFolder
       .add(materialParams, 'metalness', 0, 1, 0.01)
       .onChange((value: number) => {
         material.metalness = value;
+        syncSandboxMaterials(material, letters);
       }),
     materialFolder
       .add(materialParams, 'roughness', 0, 1, 0.01)
       .onChange((value: number) => {
         material.roughness = value;
+        syncSandboxMaterials(material, letters);
       }),
   );
   materialFolder.open();
@@ -189,6 +209,45 @@ export function createSandboxGui({
     dampingFactor: sandboxDefaults.controls.dampingFactor,
   };
 
+  const pulseParams: PulseParams = {
+    enabled: pulse.enabled,
+    beat: pulse.beat,
+    scaleBoost: pulse.scaleBoost,
+    emissiveBoost: pulse.emissiveBoost,
+  };
+
+  const pulseFolder = gui.addFolder('pulse');
+  controllers.push(
+    pulseFolder
+      .add(pulseParams, 'enabled')
+      .name('enabled')
+      .onChange((value: boolean) => {
+        pulse.enabled = value;
+        if (!value) {
+          resetPulseVisuals(letters, pulse);
+        }
+      }),
+    pulseFolder
+      .add(pulseParams, 'beat', 0.2, 3, 0.05)
+      .name('beat (s)')
+      .onChange((value: number) => {
+        pulse.beat = value;
+      }),
+    pulseFolder
+      .add(pulseParams, 'scaleBoost', 0, 1.5, 0.01)
+      .name('scale')
+      .onChange((value: number) => {
+        pulse.scaleBoost = value;
+      }),
+    pulseFolder
+      .add(pulseParams, 'emissiveBoost', 0, 1, 0.01)
+      .name('glow')
+      .onChange((value: number) => {
+        pulse.emissiveBoost = value;
+      }),
+  );
+  pulseFolder.open();
+
   const controlsFolder = gui.addFolder('controls');
   controllers.push(
     controlsFolder
@@ -241,6 +300,16 @@ export function createSandboxGui({
     controlsParams.damping = controls.enableDamping;
     controlsParams.dampingFactor = controls.dampingFactor;
 
+    pulse.restEmissive = sandboxDefaults.material.emissiveIntensity;
+    pulse.enabled = sandboxDefaults.pulse.enabled;
+    pulse.beat = sandboxDefaults.pulse.beat;
+    pulse.scaleBoost = sandboxDefaults.pulse.scaleBoost;
+    pulse.emissiveBoost = sandboxDefaults.pulse.emissiveBoost;
+    pulseParams.enabled = pulse.enabled;
+    pulseParams.beat = pulse.beat;
+    pulseParams.scaleBoost = pulse.scaleBoost;
+    pulseParams.emissiveBoost = pulse.emissiveBoost;
+
     controllers.forEach((controller) => controller.updateDisplay());
   };
 
@@ -255,8 +324,13 @@ export function createSandboxGui({
           rimLight,
           material,
           controls,
+          background,
         });
+        syncSandboxMaterials(material, letters, true);
         syncGuiFromScene();
+        if (!pulse.enabled) {
+          resetPulseVisuals(letters, pulse);
+        }
       },
     },
     'resetDefaults',
@@ -266,17 +340,19 @@ export function createSandboxGui({
     {
       randomizeColors: () => {
         const pair = pickRandomColorPair({
-          background: sceneParams.background,
-          material: materialParams.color,
+          background: colorToHex(scene.background as THREE.Color),
+          material: colorToHex(material.color),
         });
 
         scene.background = new THREE.Color(pair.background);
         sceneParams.background = pair.background;
+        background.setColor(pair.background);
 
-        const nextColor = new THREE.Color(pair.material);
-        material.color.copy(nextColor);
-        material.emissive.copy(nextColor);
+        applySandboxMaterialColor(material, letters, pair.material);
         materialParams.color = pair.material;
+
+        fillLight.color.set(pair.material);
+        lightParams.fill.color = pair.material;
 
         controllers.forEach((controller) => controller.updateDisplay());
       },

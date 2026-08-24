@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 import type { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import type { SandboxBackground } from './createSandboxBackground';
 import { defaultColorPair } from './sandboxColorPairs';
 
 export const sandboxDefaults = {
   scene: {
     background: defaultColorPair.background,
+    backgroundDistance: 3.5,
+    backgroundSize: 28,
   },
   material: {
     color: defaultColorPair.material,
@@ -38,12 +41,17 @@ export const sandboxDefaults = {
     zoomSpeed: 0.8,
     damping: true,
     dampingFactor: 0.06,
+    minAzimuthAngle: -Math.PI / 2,
+    maxAzimuthAngle: Math.PI / 2,
+    minPolarAngle: Math.PI / 4,
+    maxPolarAngle: Math.PI - Math.PI / 4,
   },
   text: {
     nameSize: 0.38,
     titleSize: 0.21,
     depth: 0.07,
     lineSpacing: 0.14,
+    letterSpacing: 0.08,
     curveSegments: 6,
   },
   camera: {
@@ -51,6 +59,12 @@ export const sandboxDefaults = {
     initialDistanceFactor: 0.33,
     minDistanceFactor: 0.04,
     maxDistanceFactor: 10,
+  },
+  pulse: {
+    enabled: true,
+    beat: 1,
+    scaleBoost: 0.45,
+    emissiveBoost: 0.45,
   },
 } as const;
 
@@ -62,6 +76,7 @@ interface SandboxSettingsTarget {
   rimLight: THREE.DirectionalLight;
   material: THREE.MeshStandardMaterial;
   controls: OrbitControls;
+  background?: SandboxBackground;
 }
 
 export function applySandboxDefaults({
@@ -72,11 +87,13 @@ export function applySandboxDefaults({
   rimLight,
   material,
   controls,
+  background,
 }: SandboxSettingsTarget) {
   const { scene: sceneDefaults, material: materialDefaults, ambientLight: ambientDefaults, lights, controls: controlsDefaults } =
     sandboxDefaults;
 
   scene.background = new THREE.Color(sceneDefaults.background);
+  background?.setColor(sceneDefaults.background);
 
   const materialColor = new THREE.Color(materialDefaults.color);
   material.color.copy(materialColor);
@@ -116,4 +133,8 @@ export function applySandboxDefaults({
   controls.zoomSpeed = controlsDefaults.zoomSpeed;
   controls.enableDamping = controlsDefaults.damping;
   controls.dampingFactor = controlsDefaults.dampingFactor;
+  controls.minAzimuthAngle = controlsDefaults.minAzimuthAngle;
+  controls.maxAzimuthAngle = controlsDefaults.maxAzimuthAngle;
+  controls.minPolarAngle = controlsDefaults.minPolarAngle;
+  controls.maxPolarAngle = controlsDefaults.maxPolarAngle;
 }
