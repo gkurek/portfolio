@@ -2,13 +2,14 @@
 import { computed, ref } from 'vue';
 import { site } from '../config/site';
 
+const showProjectsLink = site.showProjectsLink;
 const showProjects = ref(false);
-const hasVisitedProjects = ref(false);
+const animated = ref(false);
 
 const iconsClass = computed(() => ({
   animated: true,
   icons: true,
-  ...(hasVisitedProjects.value && {
+  ...(animated.value && {
     fadeInRight: !showProjects.value,
     fadeOutRight: showProjects.value,
   }),
@@ -17,27 +18,27 @@ const iconsClass = computed(() => ({
 const projectsClass = computed(() => ({
   animated: true,
   projects: true,
-  ...(hasVisitedProjects.value && {
+  ...(animated.value && {
     fadeInLeft: showProjects.value,
     fadeOutLeft: !showProjects.value,
   }),
 }));
 
-function showProjectsView(event: Event) {
+function openProjects(event: Event) {
   event.preventDefault();
-  hasVisitedProjects.value = true;
+  animated.value = true;
   showProjects.value = true;
 }
 
-function showIconsView(event: Event) {
+function closeProjects(event: Event) {
   event.preventDefault();
   showProjects.value = false;
 }
 </script>
 
 <template>
-  <p :class="projectsClass">
-    <a class="navR" href="#" title="back to links" @click="showIconsView">
+  <p v-if="showProjectsLink" :class="projectsClass">
+    <a class="navR" href="#" title="back to links" @click="closeProjects">
       <i class="fas fa-chevron-left" />
     </a>
     <a
@@ -63,7 +64,13 @@ function showIconsView(event: Event) {
     >
       <i :class="item.icon" />
     </a>
-    <a class="navL" href="#" title="my projects" @click="showProjectsView">
+    <a
+      v-if="showProjectsLink"
+      class="navL"
+      href="#"
+      title="my projects"
+      @click="openProjects"
+    >
       <i class="fas fa-code" />
     </a>
   </p>

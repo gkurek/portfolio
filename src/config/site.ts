@@ -3,6 +3,8 @@ export const site = {
   title: "Software Engineer",
   description: "Can I kick it?",
   url: "https://grzegorzkurek.pl",
+  /** Show projects toggle on homepage (code icon). Set true to restore UI link. */
+  showProjectsLink: false,
   social: [
     {
       id: "github",
@@ -30,12 +32,6 @@ export const site = {
       title: "natours",
       path: "/projects/natours",
       openInNewTab: true,
-    },
-    {
-      id: "merdillo",
-      label: "3",
-      title: "medrillo",
-      path: "/projects/merdillo",
     },
   ],
 } as const;

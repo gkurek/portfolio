@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { site } from '../../config/site';
+---
+
+<BaseLayout>
+  <main class="main center">
+    <h1>{site.name}</h1>
+    <p>{site.title}</p>
+    <p class="projects projects--visible">
+      <a class="navR" href="/" title="back to portfolio">
+        <i class="fas fa-chevron-left" />
+      </a>
+      {
+        site.projects.map((project) => {
+          const openInNewTab = 'openInNewTab' in project && project.openInNewTab;
+          return (
+            <a
+              href={project.path}
+              title={project.title}
+              target={openInNewTab ? '_blank' : undefined}
+              rel={openInNewTab ? 'noopener noreferrer' : undefined}
+            >
+              {project.label}
+            </a>
+          );
+        })
+      }
+    </p>
+  </main>
+</BaseLayout>
