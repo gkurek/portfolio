@@ -1,0 +1,83 @@
+.animated {
+  animation-duration: 0.2s;
+  animation-fill-mode: both;
+}
+
+.fadeOutRight {
+  animation-name: fadeOutRight;
+}
+
+.fadeInRight {
+  animation-name: fadeInRight;
+}
+
+.fadeOutLeft {
+  animation-name: fadeOutLeft;
+}
+
+.fadeInLeft {
+  animation-name: fadeInLeft;
+}
+
+.spin {
+  animation-name: spin;
+  animation-duration: 2000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes fadeOutRight {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+    left: 50%;
+    transform: translateX(-65%);
+  }
+}
+
+@keyframes fadeOutLeft {
+  from {
+    opacity: 1;
+    left: 50%;
+    transform: translateX(-65%);
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

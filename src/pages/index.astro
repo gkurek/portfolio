@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PortfolioNav from '../components/PortfolioNav.vue';
+import { site } from '../config/site';
+---
+
+<BaseLayout>
+  <main class="main center">
+    <h1>{site.name}</h1>
+    <p>{site.title}</p>
+    <PortfolioNav client:load />
+  </main>
+</BaseLayout>
