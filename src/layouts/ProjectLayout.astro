@@ -4,17 +4,27 @@ import BaseLayout from './BaseLayout.astro';
 interface Props {
   title: string;
   description?: string;
+  fullPage?: boolean;
+  showBackLink?: boolean;
 }
 
-const { title, description } = Astro.props as Props;
+const { title, description, fullPage = false, showBackLink = true } = Astro.props as Props;
+const pageClass = fullPage ? 'project-full-page' : undefined;
 ---
 
-<BaseLayout title={title} description={description}>
-  <a class="project-back" href="/" title="back to portfolio">
-    <i class="fas fa-chevron-left" />
-    portfolio
-  </a>
-  <main class="project-page">
+<BaseLayout
+  title={title}
+  description={description}
+  htmlClass={pageClass}
+  bodyClass={pageClass}
+>
+  {showBackLink && (
+    <a class="project-back" href="/" title="back to portfolio">
+      <i class="fas fa-chevron-left" />
+      portfolio
+    </a>
+  )}
+  <main class:list={['project-page', { 'project-page--full': fullPage }]}>
     <slot />
   </main>
 </BaseLayout>

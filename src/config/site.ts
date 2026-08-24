@@ -29,6 +29,7 @@ export const site = {
       label: "2",
       title: "natours",
       path: "/projects/natours",
+      openInNewTab: true,
     },
     {
       id: "merdillo",

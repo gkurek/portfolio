@@ -45,6 +45,8 @@ function showIconsView(event: Event) {
       :key="project.id"
       :href="project.path"
       :title="project.title"
+      :target="'openInNewTab' in project && project.openInNewTab ? '_blank' : undefined"
+      :rel="'openInNewTab' in project && project.openInNewTab ? 'noopener noreferrer' : undefined"
     >
       {{ project.label }}
     </a>
