@@ -1,6 +1,7 @@
 export const site = {
   name: "Grzegorz Kurek",
   title: "Software Engineer",
+  tagline: "code & coffee",
   description: "Can I kick it?",
   url: "https://grzegorzkurek.pl",
   /** Show projects toggle on homepage (code icon). Set true to restore UI link. */
