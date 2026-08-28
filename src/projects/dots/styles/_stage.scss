@@ -1,0 +1,78 @@
+// Keeps the two 3D animation families (gk-spin) and (gk-wave) in sync with
+// the builders in src/projects/dots/dotAnimations.ts.
+@keyframes dot-radar-ping {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes gk-spin {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes gk-wave {
+  0%,
+  100% {
+    transform: translateY(calc(var(--a) * 1px));
+  }
+
+  50% {
+    transform: translateY(calc(var(--a) * -1px));
+  }
+}
+
+// Matches STAGE_SIZE in dotAnimations.ts.
+.dots-stage {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dots-stage--radar {
+  perspective: none;
+}
+
+.dot-radar {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dot-radar__ring {
+  position: absolute;
+  inset: 0;
+  border: 1px solid oklch(75% 0.18 350 / 0.5);
+  border-radius: 50%;
+  animation: dot-radar-ping 2.4s ease-out infinite;
+}
+
+.dot-radar__dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(75% 0.18 350);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px oklch(75% 0.18 350 / 0.8);
+}
+
+.dots-stage__tilt,
+.dots-stage__spin {
+  transform-style: preserve-3d;
+}

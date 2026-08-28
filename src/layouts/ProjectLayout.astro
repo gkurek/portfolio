@@ -6,18 +6,21 @@ interface Props {
   description?: string;
   fullPage?: boolean;
   showBackLink?: boolean;
+  bodyClass?: string;
 }
 
-const { title, description, fullPage = false, showBackLink = true } = Astro.props as Props;
+const { title, description, fullPage = false, showBackLink = true, bodyClass } = Astro.props as Props;
 const pageClass = fullPage ? 'project-full-page' : undefined;
+const resolvedBodyClass = bodyClass ?? pageClass;
 ---
 
 <BaseLayout
   title={title}
   description={description}
   htmlClass={pageClass}
-  bodyClass={pageClass}
+  bodyClass={resolvedBodyClass}
 >
+  <slot name="head" slot="head" />
   {showBackLink && (
     <a class="project-back" href="/" title="back to portfolio">
       <i class="fas fa-chevron-left" />

@@ -1,0 +1,15 @@
+---
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+import DotsPage from '../../projects/dots/DotsPage.vue';
+---
+
+<ProjectLayout title="dots" bodyClass="home-page" showBackLink={false}>
+  <link slot="head" rel="preconnect" href="https://fonts.googleapis.com" />
+  <link slot="head" rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    slot="head"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Fira+Code:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <DotsPage client:only="vue" />
+</ProjectLayout>

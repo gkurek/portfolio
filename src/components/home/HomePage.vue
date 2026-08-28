@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import PortfolioNav from '../PortfolioNav.vue';
+import DotStage from '../../projects/dots/DotStage.vue';
 import { site } from '../../config/site';
+import { HOME_HERO_VARIANT } from '../../projects/dots/dotAnimations';
 
 const github = site.social.find((item) => item.id === 'github');
 const linkedin = site.social.find((item) => item.id === 'linkedin');
@@ -13,12 +15,7 @@ const linkedin = site.social.find((item) => item.id === 'linkedin');
     <span class="home-hero__version" aria-hidden="true">// v2.3</span>
 
     <div class="home-hero__content">
-      <div class="home-radar" aria-hidden="true">
-        <span class="home-radar__ring"></span>
-        <span class="home-radar__ring"></span>
-        <span class="home-radar__ring"></span>
-        <span class="home-radar__dot"></span>
-      </div>
+      <DotStage class="home-hero__stage" :variant="HOME_HERO_VARIANT" aria-hidden="true" />
 
       <h1 class="home-hero__name">
         {{ site.name }}

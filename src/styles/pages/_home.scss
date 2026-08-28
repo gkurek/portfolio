@@ -40,18 +40,6 @@ $home-accent: oklch(75% 0.18 350);
   }
 }
 
-@keyframes home-ping {
-  0% {
-    transform: scale(0.4);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-
 body.home-page {
   background: $home-bg-vignette;
   background-color: $home-bg;
@@ -169,42 +157,11 @@ body.home-page {
   }
 }
 
-.home-radar {
+.home-hero__stage {
   position: absolute;
   bottom: calc(100% + 30px);
   left: 50%;
-  width: 140px;
-  height: 140px;
-  margin: 0;
   transform: translateX(-50%);
-}
-
-.home-radar__ring {
-  position: absolute;
-  inset: 0;
-  border: 1px solid oklch(75% 0.18 350 / 0.5);
-  border-radius: 50%;
-  animation: home-ping 2.4s ease-out infinite;
-
-  &:nth-child(2) {
-    animation-delay: 0.8s;
-  }
-
-  &:nth-child(3) {
-    animation-delay: 1.6s;
-  }
-}
-
-.home-radar__dot {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: $home-accent;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px oklch(75% 0.18 350 / 0.8);
 }
 
 .home-hero .icons,

@@ -7,4 +7,7 @@ export default defineConfig({
   integrations: [vue()],
   output: 'static',
   site: 'https://grzegorzkurek.pl',
+  redirects: {
+    '/dots': '/projects/dots',
+  },
 });

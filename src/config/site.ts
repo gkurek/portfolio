@@ -40,5 +40,11 @@ export const site = {
       title: "sandbox",
       path: "/projects/sandbox",
     },
+    {
+      id: "dots",
+      label: "4",
+      title: "dots",
+      path: "/projects/dots",
+    },
   ],
 } as const;
