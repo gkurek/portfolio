@@ -11,7 +11,6 @@ const linkedin = site.social.find((item) => item.id === 'linkedin');
   <section class="home-hero">
     <div class="home-hero__bg" aria-hidden="true"></div>
     <div class="home-hero__grain" aria-hidden="true"></div>
-    <span class="home-hero__version" aria-hidden="true">// v2.3</span>
 
     <div class="home-hero__content">
       <HeroDotStage class="home-hero__stage" :variant="HOME_HERO_VARIANT" aria-hidden="true" />
