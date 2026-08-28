@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import PortfolioNav from '../PortfolioNav.vue';
-import DotStage from '../../projects/dots/DotStage.vue';
 import { site } from '../../config/site';
-import { HOME_HERO_VARIANT } from '../../projects/dots/dotAnimations';
+import HeroDotStage from './HeroDotStage.vue';
+import { HOME_HERO_VARIANT } from './heroDotAnimation';
 
 const github = site.social.find((item) => item.id === 'github');
 const linkedin = site.social.find((item) => item.id === 'linkedin');
@@ -15,7 +14,7 @@ const linkedin = site.social.find((item) => item.id === 'linkedin');
     <span class="home-hero__version" aria-hidden="true">// v2.3</span>
 
     <div class="home-hero__content">
-      <DotStage class="home-hero__stage" :variant="HOME_HERO_VARIANT" aria-hidden="true" />
+      <HeroDotStage class="home-hero__stage" :variant="HOME_HERO_VARIANT" aria-hidden="true" />
 
       <h1 class="home-hero__name">
         {{ site.name }}
@@ -50,8 +49,6 @@ const linkedin = site.social.find((item) => item.id === 'linkedin');
           </svg>
         </a>
       </nav>
-
-      <PortfolioNav v-if="site.showProjectsLink" />
     </div>
   </section>
 </template>

@@ -1,0 +1,22 @@
+@keyframes gk-spin {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+.dots-stage {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dots-stage__tilt,
+.dots-stage__spin {
+  transform-style: preserve-3d;
+}
