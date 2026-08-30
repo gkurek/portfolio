@@ -150,5 +150,6 @@ body.home-page {
   position: absolute;
   bottom: 100%;
   left: 50%;
+  z-index: 1;
   transform: translateX(-50%);
 }

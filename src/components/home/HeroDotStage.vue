@@ -1,32 +1,104 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import type { HeroDotVariant } from './heroDotAnimation';
+import { onMounted, onUnmounted, ref } from 'vue';
+import type { DotParticle, HeroDotVariant, Shockwave } from './heroDotAnimation';
+import {
+  applyShockwaves,
+  findNearestParticle,
+  getSpinYaw,
+  pushShockwave,
+  resetParticles,
+} from './heroDotAnimation';
 
 const props = defineProps<{
   variant: HeroDotVariant;
 }>();
 
-const stageEl = ref<HTMLElement | null>(null);
+const rootEl = ref<HTMLElement | null>(null);
+const spinEl = ref<HTMLElement | null>(null);
 
-function render() {
-  const stage = stageEl.value;
-  if (!stage) return;
+let particles: DotParticle[] = [];
+let waves: Shockwave[] = [];
+let rafId = 0;
+let lastTime = 0;
 
-  stage.replaceChildren();
-  stage.style.animation = `gk-spin ${props.variant.spinDuration}s linear infinite`;
-  props.variant.build(stage, props.variant.scale);
+function tick(time: number) {
+  const dt = Math.min(0.05, (time - lastTime) / 1000);
+  lastTime = time;
+
+  if (waves.length > 0) {
+    waves = applyShockwaves(particles, waves, dt);
+  } else {
+    resetParticles(particles);
+  }
+
+  if (waves.length > 0) {
+    rafId = requestAnimationFrame(tick);
+  } else {
+    rafId = 0;
+  }
 }
 
-onMounted(render);
+function startLoop() {
+  if (rafId) return;
+  lastTime = performance.now();
+  rafId = requestAnimationFrame(tick);
+}
+
+function onPointerDown(event: PointerEvent) {
+  const root = rootEl.value;
+  const spin = spinEl.value;
+  if (!particles.length || !root || !spin) return;
+
+  event.preventDefault();
+
+  const rect = root.getBoundingClientRect();
+  const nearest = findNearestParticle(
+    particles,
+    rect,
+    event.clientX,
+    event.clientY,
+    getSpinYaw(spin),
+    props.variant.rotateX,
+    props.variant.perspective,
+  );
+  waves = pushShockwave(waves, nearest.base);
+  startLoop();
+}
+
+function render() {
+  const spin = spinEl.value;
+  if (!spin) return;
+
+  waves = [];
+  spin.replaceChildren();
+  particles = props.variant.build(spin, props.variant.scale);
+}
+
+function onStageMounted() {
+  const spin = spinEl.value;
+  if (!spin) return;
+  spin.style.animation = `gk-spin ${props.variant.spinDuration}s linear infinite`;
+  render();
+}
+
+onMounted(onStageMounted);
+onUnmounted(() => {
+  if (rafId) cancelAnimationFrame(rafId);
+});
 </script>
 
 <template>
-  <div class="dots-stage" :style="{ perspective: `${variant.perspective}px` }">
+  <div
+    ref="rootEl"
+    class="dots-stage"
+    :style="{ perspective: `${variant.perspective}px` }"
+    @pointerdown="onPointerDown"
+  >
     <div
       class="dots-stage__tilt"
       :style="{ transform: `rotateX(${variant.rotateX}deg) rotateZ(${variant.rotateZ}deg)` }"
     >
-      <div class="dots-stage__spin" ref="stageEl" />
+      <div ref="spinEl" class="dots-stage__spin" />
     </div>
   </div>
 </template>

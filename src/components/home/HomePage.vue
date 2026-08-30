@@ -20,7 +20,7 @@ const linkedin = site.social.find((item) => item.id === 'linkedin');
       </h1>
 
       <p class="home-hero__tagline">
-        <span>&gt; {{ site.tagline }}</span>
+        <span>{{ site.tagline }}</span>
         <span class="home-hero__cursor" aria-hidden="true">_</span>
       </p>
 

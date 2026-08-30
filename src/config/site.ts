@@ -1,7 +1,7 @@
 export const site = {
   name: "Grzegorz Kurek",
   title: "Software Engineer",
-  tagline: "code & coffee",
+  tagline: "can i kick it?",
   description: "Can I kick it?",
   url: "https://grzegorzkurek.pl",
   social: [
