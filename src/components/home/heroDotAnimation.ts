@@ -1,4 +1,4 @@
-const DOT_COLOR = "oklch(75% 0.18 350)";
+const FALLBACK_DOT_COLOR = "oklch(75% 0.18 350)";
 const DEG = Math.PI / 180;
 
 export interface DotParticle {
@@ -14,29 +14,49 @@ export interface Shockwave {
   t: number;
 }
 
+interface OrientationBasis {
+  cosYaw: number;
+  sinYaw: number;
+  cosTilt: number;
+  sinTilt: number;
+}
+
+const orientOut = { x: 0, y: 0, z: 0 };
+
+function makeOrientationBasis(yaw: number, tiltDeg: number): OrientationBasis {
+  const tilt = tiltDeg * DEG;
+  return {
+    cosYaw: Math.cos(yaw),
+    sinYaw: Math.sin(yaw),
+    cosTilt: Math.cos(tilt),
+    sinTilt: Math.sin(tilt),
+  };
+}
+
 function orientPoint(
   x: number,
   y: number,
   z: number,
-  yaw: number,
-  tiltDeg: number,
-): [number, number, number] {
-  const cosYaw = Math.cos(yaw);
-  const sinYaw = Math.sin(yaw);
-  const x1 = x * cosYaw + z * sinYaw;
-  const z1 = -x * sinYaw + z * cosYaw;
+  basis: OrientationBasis,
+): void {
+  const x1 = x * basis.cosYaw + z * basis.sinYaw;
+  const z1 = -x * basis.sinYaw + z * basis.cosYaw;
+  orientOut.x = x1;
+  orientOut.y = y * basis.cosTilt - z1 * basis.sinTilt;
+  orientOut.z = y * basis.sinTilt + z1 * basis.cosTilt;
+}
 
-  const tilt = tiltDeg * DEG;
-  const cosTilt = Math.cos(tilt);
-  const sinTilt = Math.sin(tilt);
-  return [x1, y * cosTilt - z1 * sinTilt, y * sinTilt + z1 * cosTilt];
+function getDotColor(): string {
+  const value = getComputedStyle(document.documentElement)
+    .getPropertyValue("--color-accent")
+    .trim();
+  return value || FALLBACK_DOT_COLOR;
 }
 
 function setDotTransform(
   particle: DotParticle,
   radialScale = 1,
-  yaw?: number,
-  tiltDeg?: number,
+  basis?: OrientationBasis,
 ) {
   const { base, radius, scale, el } = particle;
   const extent = radius * radialScale * scale;
@@ -44,8 +64,9 @@ function setDotTransform(
   const y = base[1] * radius * radialScale * scale;
   const z = base[2] * radius * radialScale * scale;
 
-  if (yaw !== undefined && tiltDeg !== undefined) {
-    const [x1, y1, z1] = orientPoint(x, y, z, yaw, tiltDeg);
+  if (basis) {
+    orientPoint(x, y, z, basis);
+    const { x: x1, y: y1, z: z1 } = orientOut;
     const normalizedZ = extent > 0 ? z1 / extent : 0;
     const depth = (normalizedZ + 1.4) / 2.8;
     const sizeScale = 0.75 + depth * 1.15;
@@ -61,10 +82,10 @@ function setDotTransform(
   el.style.transform = `translate3d(${x}px,${y}px,${z}px)`;
 }
 
-function makeDot(particle: DotParticle): HTMLSpanElement {
+function makeDot(particle: DotParticle, dotColor: string): HTMLSpanElement {
   const { size, scale, el } = particle;
   const s = size * scale;
-  el.style.cssText = `position:absolute;left:0;top:0;width:${s}px;height:${s}px;margin:${-s / 2}px 0 0 ${-s / 2}px;border-radius:50%;background:${DOT_COLOR};pointer-events:none`;
+  el.style.cssText = `position:absolute;left:0;top:0;width:${s}px;height:${s}px;margin:${-s / 2}px 0 0 ${-s / 2}px;border-radius:50%;background:${dotColor};pointer-events:none`;
   setDotTransform(particle);
   return el;
 }
@@ -77,6 +98,7 @@ function buildSphere(
 ): DotParticle[] {
   const particles: DotParticle[] = [];
   const frag = document.createDocumentFragment();
+  const dotColor = getDotColor();
   const golden = Math.PI * (3 - Math.sqrt(5));
   for (let i = 0; i < n; i++) {
     const yFrac = 1 - (i / (n - 1)) * 2;
@@ -94,7 +116,7 @@ function buildSphere(
       scale,
     };
     particles.push(particle);
-    frag.appendChild(makeDot(particle));
+    frag.appendChild(makeDot(particle, dotColor));
   }
   stage.appendChild(frag);
   return particles;
@@ -113,6 +135,7 @@ export function findNearestParticle(
   const my = clientY - stageRect.top;
   const cx = stageRect.width / 2;
   const cy = stageRect.height / 2;
+  const basis = makeOrientationBasis(yaw, tiltDeg);
 
   let best = particles[0];
   let bestDist = Infinity;
@@ -122,13 +145,13 @@ export function findNearestParticle(
     const x = particle.base[0] * extent;
     const y = particle.base[1] * extent;
     const z = particle.base[2] * extent;
-    const [x1, y1, z1] = orientPoint(x, y, z, yaw, tiltDeg);
+    orientPoint(x, y, z, basis);
 
-    if (z1 < 0) continue;
+    if (orientOut.z < 0) continue;
 
-    const factor = perspective / (perspective - z1);
-    const sx = cx + x1 * factor;
-    const sy = cy + y1 * factor;
+    const factor = perspective / (perspective - orientOut.z);
+    const sx = cx + orientOut.x * factor;
+    const sy = cy + orientOut.y * factor;
     const dist = (sx - mx) ** 2 + (sy - my) ** 2;
 
     if (dist < bestDist) {
@@ -145,8 +168,9 @@ export function resetParticles(
   yaw: number,
   tiltDeg: number,
 ) {
+  const basis = makeOrientationBasis(yaw, tiltDeg);
   for (const particle of particles) {
-    setDotTransform(particle, 1, yaw, tiltDeg);
+    setDotTransform(particle, 1, basis);
   }
 }
 
@@ -162,10 +186,11 @@ export function applyShockwaves(
   yaw: number,
   tiltDeg: number,
 ): Shockwave[] {
-  const active = waves.filter((wave) => {
+  for (const wave of waves) {
     wave.t += dt;
-    return wave.t < WAVE_DURATION;
-  });
+  }
+  const active = waves.filter((wave) => wave.t < WAVE_DURATION);
+  const basis = makeOrientationBasis(yaw, tiltDeg);
 
   for (const particle of particles) {
     let displacement = 0;
@@ -185,7 +210,7 @@ export function applyShockwaves(
       const gaussian = Math.exp(-((ang - front) ** 2) / WAVE_WIDTH);
       displacement += gaussian * WAVE_AMP * Math.max(0, 1 - wave.t / WAVE_DURATION);
     }
-    setDotTransform(particle, 1 + displacement, yaw, tiltDeg);
+    setDotTransform(particle, 1 + displacement, basis);
   }
 
   return active;
@@ -201,24 +226,22 @@ export function pushShockwave(
 }
 
 const STAGE_SIZE = 140;
-const CARD_WIDTH = { square: 220 } as const;
-const BASE_PERSPECTIVE = { square: 520 } as const;
-const scale = STAGE_SIZE / CARD_WIDTH.square;
+const CARD_WIDTH = 220;
+const BASE_PERSPECTIVE = 520;
+const scale = STAGE_SIZE / CARD_WIDTH;
 
 export interface HeroDotVariant {
   scale: number;
   perspective: number;
   rotateX: number;
-  rotateZ: number;
   spinDuration: number;
   build: (stage: HTMLElement, scale: number) => DotParticle[];
 }
 
 export const HOME_HERO_VARIANT: HeroDotVariant = {
   scale,
-  perspective: BASE_PERSPECTIVE.square * scale,
+  perspective: BASE_PERSPECTIVE * scale,
   rotateX: 18,
-  rotateZ: 0,
   spinDuration: 11,
   build: (stage, heroScale) => buildSphere(stage, 480, 75, heroScale),
 };
