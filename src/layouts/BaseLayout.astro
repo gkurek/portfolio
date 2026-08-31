@@ -1,38 +1,52 @@
 ---
-import '../styles/main.scss';
 import PostHog from '../components/PostHog.astro';
 import { site } from '../config/site';
 
 interface Props {
   title?: string;
   description?: string;
-  htmlClass?: string;
-  bodyClass?: string;
 }
 
-const {
-  title = site.name,
-  description = site.description,
-  htmlClass,
-  bodyClass,
-} = Astro.props as Props;
+const { title = site.name, description = site.description } = Astro.props as Props;
 ---
 
 <!doctype html>
-<html lang="en" class={htmlClass}>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fira+Code:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <PostHog />
     <slot name="head" />
   </head>
-  <body class={bodyClass}>
+  <body>
     <noscript>
       <p>This site works without JavaScript. Enable it for the animated background.</p>
     </noscript>
     <slot />
   </body>
 </html>
+
+<style is:global>
+  *,
+  *::after,
+  *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+  }
+</style>

@@ -30,194 +30,195 @@ import SocialLink from './SocialLink.astro';
   </div>
 </main>
 
-<style lang="scss">
-$home-bg: #101010;
-$home-bg-vignette: radial-gradient(ellipse at 50% 40%, #181818 0%, #101010 72%);
-$home-text: #e5e5e5;
-$home-muted: #8c8c8c;
-$home-accent: oklch(75% 0.18 350);
-
-@keyframes home-blink {
-  0%,
-  49% {
-    opacity: 1;
+<style>
+  :global(html),
+  :global(body) {
+    --color-accent: oklch(75% 0.18 350);
+    --home-bg: #101010;
+    --home-bg-vignette: radial-gradient(ellipse at 50% 40%, #181818 0%, #101010 72%);
+    --home-text: #e5e5e5;
+    --home-muted: #8c8c8c;
+    background: var(--home-bg-vignette);
+    background-color: var(--home-bg);
+    color: var(--home-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 8px;
+    line-height: 1.4;
+    overflow: hidden;
   }
-
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes home-glitch-hover {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-
-  20% {
-    transform: translate(-2px, 1px);
-  }
-
-  40% {
-    transform: translate(2px, -1px);
-  }
-
-  60% {
-    transform: translate(-1px, 0);
-  }
-
-  80% {
-    transform: translate(1px, 1px);
-  }
-}
-
-:global(html),
-:global(body) {
-  --color-accent: #{$home-accent};
-  background: $home-bg-vignette;
-  background-color: $home-bg;
-  color: $home-text;
-  font-family: 'Inter', sans-serif;
-  font-size: 8px;
-  line-height: 1.4;
-  overflow: hidden;
 
   @media only screen and (min-width: 768px) {
-    font-size: 10px;
+    :global(html),
+    :global(body) {
+      font-size: 10px;
+    }
   }
 
-  ::selection {
-    background: $home-accent;
-    color: $home-bg;
+  :global(::selection) {
+    background: var(--color-accent);
+    color: var(--home-bg);
   }
-}
 
-:global(body a) {
-  color: $home-muted;
-  text-decoration: none;
+  @keyframes home-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
 
-  &:hover {
-    color: $home-text;
+    50%,
+    100% {
+      opacity: 0;
+    }
   }
-}
 
-:global(.home-hero__social a) {
-  position: relative;
-  color: $home-muted;
+  @keyframes home-glitch-hover {
+    0%,
+    100% {
+      transform: translate(0, 0);
+    }
 
-  &::before {
+    20% {
+      transform: translate(-2px, 1px);
+    }
+
+    40% {
+      transform: translate(2px, -1px);
+    }
+
+    60% {
+      transform: translate(-1px, 0);
+    }
+
+    80% {
+      transform: translate(1px, 1px);
+    }
+  }
+
+  :global(body a) {
+    color: var(--home-muted);
+    text-decoration: none;
+  }
+
+  :global(body a:hover) {
+    color: var(--home-text);
+  }
+
+  :global(.home-hero__social a) {
+    position: relative;
+    color: var(--home-muted);
+  }
+
+  :global(.home-hero__social a::before) {
     content: '';
     position: absolute;
     inset: -8px;
   }
 
-  &:hover {
-    color: $home-accent;
+  :global(.home-hero__social a:hover),
+  :global(.home-hero__social a:focus-visible) {
+    color: var(--color-accent);
   }
 
-  &:focus-visible {
-    outline: 2px solid $home-accent;
+  :global(.home-hero__social a:focus-visible) {
+    outline: 2px solid var(--color-accent);
     outline-offset: 2px;
-    color: $home-accent;
   }
-}
 
-.home-hero {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+  .home-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 
-.home-hero__bg,
-.home-hero__grain {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
+  .home-hero__bg,
+  .home-hero__grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
 
-.home-hero__bg {
-  background: $home-bg-vignette;
-}
+  .home-hero__bg {
+    background: var(--home-bg-vignette);
+  }
 
-.home-hero__grain {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1.5px);
-  background-size: 5px 5px;
-}
+  .home-hero__grain {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1.5px);
+    background-size: 5px 5px;
+  }
 
-.home-hero__content {
-  position: relative;
-  text-align: center;
-}
+  .home-hero__content {
+    position: relative;
+    text-align: center;
+  }
 
-.home-hero__name {
-  display: inline-block;
-  font-weight: 500;
-  font-size: clamp(2.8rem, 8vw, 4.2rem);
-  color: $home-text;
-  letter-spacing: -0.5px;
-  cursor: default;
-  transition: text-shadow 0.1s;
+  .home-hero__name {
+    display: inline-block;
+    font-weight: 500;
+    font-size: clamp(2.8rem, 8vw, 4.2rem);
+    color: var(--home-text);
+    letter-spacing: -0.5px;
+    cursor: default;
+    transition: text-shadow 0.1s;
+  }
 
-  &:hover {
+  .home-hero__name:hover {
     animation: home-glitch-hover 0.3s steps(1) infinite;
     text-shadow:
       -2px 0 oklch(75% 0.18 350 / 0.7),
       2px 0 rgba(140, 140, 140, 0.5);
   }
-}
 
-.home-hero__tagline {
-  display: flex;
-  justify-content: center;
-  gap: 2px;
-  margin-top: 10px;
-  font-family: 'Fira Code', monospace;
-  font-size: clamp(1.2rem, 3.5vw, 1.4rem);
-  color: $home-muted;
-}
-
-.home-hero__cursor {
-  color: $home-accent;
-  animation: home-blink 1s step-end infinite;
-}
-
-.home-hero__social {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  margin-top: 22px;
-
-  a {
+  .home-hero__tagline {
     display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 10px;
+    font-family: 'Fira Code', monospace;
+    font-size: clamp(1.2rem, 3.5vw, 1.4rem);
+    color: var(--home-muted);
   }
-}
 
-:global(.home-hero__stage) {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  z-index: 1;
-  transform: translateX(-50%);
-}
-
-@media (prefers-reduced-motion: reduce) {
   .home-hero__cursor {
-    animation: none;
+    color: var(--color-accent);
+    animation: home-blink 1s step-end infinite;
   }
 
-  .home-hero__name:hover {
-    animation: none;
-    text-shadow: none;
+  .home-hero__social {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 22px;
+  }
+
+  :global(.home-hero__social a) {
+    display: flex;
   }
 
   :global(.home-hero__stage) {
-    pointer-events: none;
-    cursor: default;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
   }
-}
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__cursor {
+      animation: none;
+    }
+
+    .home-hero__name:hover {
+      animation: none;
+      text-shadow: none;
+    }
+
+    :global(.home-hero__stage) {
+      pointer-events: none;
+      cursor: default;
+    }
+  }
 </style>

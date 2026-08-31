@@ -164,4 +164,22 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style src="./_hero-stage.scss"></style>
+<style scoped>
+.dots-stage {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.dots-stage__tilt,
+.dots-stage__spin {
+  transform-style: preserve-3d;
+}
+</style>

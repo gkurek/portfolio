@@ -31,7 +31,6 @@ npm run dev
 
 - Astro 7 (static site generation)
 - Vue 3 island for the hero dot sphere
-- SCSS
 
 ## Requirements
 
@@ -75,8 +74,7 @@ src/
   components/home/  Hero (static Astro), dot sphere (Vue island), social links
   config/           site content (name, social links)
   layouts/          Astro layouts
-  pages/            routes
-  styles/           global SCSS reset
+  pages/            routes (index only on master)
 public/             static files → copied to dist root
 dist/               build output (gitignored)
 .github/workflows/  CI (lint, check, build)
