@@ -1,6 +1,8 @@
 # Portfolio — Grzegorz Kurek
 
-Personal portfolio built with **Astro** + **Vue 3**. Static output ready to copy to any hosting.
+Personal portfolio built with **Astro 7** + **Vue 3**. Static output ready to copy to any hosting.
+
+The homepage hero is static HTML (name, tagline, social links); only the decorative dot sphere is a Vue island (`client:idle`).
 
 ## Branches
 
@@ -27,8 +29,8 @@ npm run dev
 
 ## Stack
 
-- Astro (static site generation)
-- Vue 3 islands
+- Astro 7 (static site generation)
+- Vue 3 island for the hero dot sphere
 - SCSS
 
 ## Requirements
@@ -40,6 +42,9 @@ npm run dev
 ```bash
 npm install
 npm run dev
+npm run lint
+npm run check
+npm run format
 ```
 
 Dev server: http://localhost:4321
@@ -67,13 +72,14 @@ No PHP or server-side runtime required.
 
 ```
 src/
-  components/     Vue islands (homepage + hero animation)
-  config/         site content (name, social links)
-  layouts/        Astro layouts
-  pages/          routes
-  styles/         SCSS
-public/           static files → copied to dist root
-dist/             build output (gitignored)
+  components/home/  Hero (static Astro), dot sphere (Vue island), social links
+  config/           site content (name, social links)
+  layouts/          Astro layouts
+  pages/            routes
+  styles/           global SCSS reset
+public/             static files → copied to dist root
+dist/               build output (gitignored)
+.github/workflows/  CI (lint, check, build)
 ```
 
 ## Legacy
