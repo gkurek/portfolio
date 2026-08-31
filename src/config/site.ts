@@ -1,7 +1,7 @@
 export type SocialId = 'github' | 'linkedin';
 
 export const site = {
-  name: 'Grzegorz Kurekx',
+  name: 'Grzegorz Kurek',
   tagline: 'can i kick it?',
   jobTitle: 'Software Engineer',
   seoTitle: 'Grzegorz Kurek — Software Engineer',
