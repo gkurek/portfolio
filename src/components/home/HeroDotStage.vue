@@ -13,18 +13,18 @@ const variant = HOME_HERO_VARIANT;
 
 const rootEl = ref<HTMLElement | null>(null);
 const spinEl = ref<HTMLElement | null>(null);
+const isReducedMotion = ref(false);
 
 let particles: DotParticle[] = [];
 let waves: Shockwave[] = [];
 let rafId = 0;
 let lastTime = 0;
 let yaw = 0;
-let prefersReducedMotion = false;
 let isTabVisible = true;
 let motionMq: MediaQueryList | null = null;
 
 function tick(time: number) {
-  if (!isTabVisible || prefersReducedMotion) {
+  if (!isTabVisible || isReducedMotion.value) {
     rafId = 0;
     return;
   }
@@ -38,7 +38,7 @@ function tick(time: number) {
     return;
   }
 
-  yaw += (Math.PI * 2 / variant.spinDuration) * dt;
+  yaw += ((Math.PI * 2) / variant.spinDuration) * dt;
 
   const tilt = variant.rotateX;
 
@@ -52,7 +52,7 @@ function tick(time: number) {
 }
 
 function startAnimation() {
-  if (prefersReducedMotion || !isTabVisible || rafId) return;
+  if (isReducedMotion.value || !isTabVisible || rafId) return;
   lastTime = performance.now();
   rafId = requestAnimationFrame(tick);
 }
@@ -64,27 +64,46 @@ function stopAnimation() {
   }
 }
 
-function onPointerDown(event: PointerEvent) {
-  if (prefersReducedMotion) return;
+function triggerShockwave(clientX: number, clientY: number) {
+  if (isReducedMotion.value) return;
 
   const root = rootEl.value;
   const spin = spinEl.value;
   if (!particles.length || !root || !spin) return;
 
-  event.preventDefault();
-
   const rect = root.getBoundingClientRect();
   const nearest = findNearestParticle(
     particles,
     rect,
-    event.clientX,
-    event.clientY,
+    clientX,
+    clientY,
     yaw,
     variant.rotateX,
     variant.perspective,
   );
   waves = pushShockwave(waves, nearest.base);
   waves = applyShockwaves(particles, waves, 0, yaw, variant.rotateX);
+  startAnimation();
+}
+
+function onPointerDown(event: PointerEvent) {
+  if (isReducedMotion.value) return;
+
+  event.preventDefault();
+  triggerShockwave(event.clientX, event.clientY);
+}
+
+function onKeyDown(event: KeyboardEvent) {
+  if (isReducedMotion.value) return;
+  if (event.key !== 'Enter' && event.key !== ' ') return;
+
+  event.preventDefault();
+
+  const root = rootEl.value;
+  if (!root) return;
+
+  const rect = root.getBoundingClientRect();
+  triggerShockwave(rect.left + rect.width / 2, rect.top + rect.height / 2);
 }
 
 function render() {
@@ -106,8 +125,8 @@ function onVisibilityChange() {
 }
 
 function onMotionPreferenceChange(event: MediaQueryListEvent) {
-  prefersReducedMotion = event.matches;
-  if (prefersReducedMotion) {
+  isReducedMotion.value = event.matches;
+  if (isReducedMotion.value) {
     stopAnimation();
     waves = [];
     if (particles.length) {
@@ -123,13 +142,13 @@ function onStageMounted() {
   if (!spin) return;
 
   motionMq = window.matchMedia('(prefers-reduced-motion: reduce)');
-  prefersReducedMotion = motionMq.matches;
+  isReducedMotion.value = motionMq.matches;
 
   yaw = Math.random() * Math.PI * 2;
   render();
   resetParticles(particles, yaw, variant.rotateX);
 
-  if (!prefersReducedMotion) {
+  if (!isReducedMotion.value) {
     startAnimation();
   }
 }
@@ -151,15 +170,21 @@ onUnmounted(() => {
   <div
     ref="rootEl"
     class="dots-stage"
-    aria-hidden="true"
+    :class="{ 'dots-stage--static': isReducedMotion }"
+    :role="isReducedMotion ? undefined : 'button'"
+    :tabindex="isReducedMotion ? undefined : 0"
+    :aria-hidden="isReducedMotion ? 'true' : undefined"
+    :aria-label="
+      isReducedMotion
+        ? undefined
+        : 'Animated dot sphere. Press or click to send a ripple.'
+    "
     :style="{ perspective: `${variant.perspective}px` }"
     @pointerdown="onPointerDown"
+    @keydown="onKeyDown"
   >
     <div class="dots-stage__tilt">
-      <div
-        ref="spinEl"
-        class="dots-stage__spin"
-      />
+      <div ref="spinEl" class="dots-stage__spin" />
     </div>
   </div>
 </template>
@@ -176,6 +201,17 @@ onUnmounted(() => {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   outline: none;
+}
+
+.dots-stage:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.dots-stage--static {
+  cursor: default;
+  pointer-events: none;
+  touch-action: auto;
 }
 
 .dots-stage__tilt,

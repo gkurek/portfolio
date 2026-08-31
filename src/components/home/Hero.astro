@@ -1,19 +1,15 @@
 ---
-import { site } from '../../config/site';
-import HeroDotStage from './HeroDotStage.vue';
-import SocialLink from './SocialLink.astro';
+import { site } from '@/config/site';
+import HeroDotStage from '@/components/home/HeroDotStage.vue';
+import SocialLink from '@/components/home/SocialLink.astro';
 ---
 
-<main class="home-hero">
+<main id="main-content" class="home-hero">
   <div class="home-hero__bg" aria-hidden="true"></div>
   <div class="home-hero__grain" aria-hidden="true"></div>
 
   <div class="home-hero__content">
-    <HeroDotStage
-      client:idle
-      class="home-hero__stage"
-      aria-hidden="true"
-    />
+    <HeroDotStage client:idle class="home-hero__stage" />
 
     <h1 class="home-hero__name">{site.name}</h1>
 
@@ -23,42 +19,16 @@ import SocialLink from './SocialLink.astro';
     </p>
 
     <nav class="home-hero__social" aria-label="Social links">
-      {site.social.map((item) => (
-        <SocialLink id={item.id} url={item.url} title={item.title} />
-      ))}
+      {
+        site.social.map((item) => (
+          <SocialLink id={item.id} url={item.url} title={item.title} />
+        ))
+      }
     </nav>
   </div>
 </main>
 
 <style>
-  :global(html),
-  :global(body) {
-    --color-accent: oklch(75% 0.18 350);
-    --home-bg: #101010;
-    --home-bg-vignette: radial-gradient(ellipse at 50% 40%, #181818 0%, #101010 72%);
-    --home-text: #e5e5e5;
-    --home-muted: #8c8c8c;
-    background: var(--home-bg-vignette);
-    background-color: var(--home-bg);
-    color: var(--home-text);
-    font-family: 'Inter', sans-serif;
-    font-size: 8px;
-    line-height: 1.4;
-    overflow: hidden;
-  }
-
-  @media only screen and (min-width: 768px) {
-    :global(html),
-    :global(body) {
-      font-size: 10px;
-    }
-  }
-
-  :global(::selection) {
-    background: var(--color-accent);
-    color: var(--home-bg);
-  }
-
   @keyframes home-blink {
     0%,
     49% {
@@ -94,17 +64,9 @@ import SocialLink from './SocialLink.astro';
     }
   }
 
-  :global(body a) {
-    color: var(--home-muted);
-    text-decoration: none;
-  }
-
-  :global(body a:hover) {
-    color: var(--home-text);
-  }
-
   :global(.home-hero__social a) {
     position: relative;
+    display: flex;
     color: var(--home-muted);
   }
 
@@ -146,7 +108,10 @@ import SocialLink from './SocialLink.astro';
   }
 
   .home-hero__grain {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1.5px);
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1.5px
+    );
     background-size: 5px 5px;
   }
 
@@ -192,10 +157,6 @@ import SocialLink from './SocialLink.astro';
     gap: 14px;
     justify-content: center;
     margin-top: 22px;
-  }
-
-  :global(.home-hero__social a) {
-    display: flex;
   }
 
   :global(.home-hero__stage) {

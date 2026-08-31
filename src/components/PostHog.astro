@@ -1,6 +1,8 @@
 ---
-const posthogKey = import.meta.env.PUBLIC_POSTHOG_KEY;
-const posthogHost = import.meta.env.PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com';
+import { PUBLIC_POSTHOG_HOST, PUBLIC_POSTHOG_KEY } from 'astro:env/client';
+
+const posthogKey = PUBLIC_POSTHOG_KEY;
+const posthogHost = PUBLIC_POSTHOG_HOST ?? 'https://eu.i.posthog.com';
 const enabled = Boolean(posthogKey) && import.meta.env.PROD;
 ---
 

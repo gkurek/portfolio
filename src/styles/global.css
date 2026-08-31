@@ -1,0 +1,69 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  --color-accent: oklch(75% 0.18 350);
+  --home-bg: #101010;
+  --home-bg-vignette: radial-gradient(
+    ellipse at 50% 40%,
+    #181818 0%,
+    #101010 72%
+  );
+  --home-text: #e5e5e5;
+  --home-muted: #8c8c8c;
+  background: var(--home-bg-vignette);
+  background-color: var(--home-bg);
+  color: var(--home-text);
+  font-family: 'Inter', sans-serif;
+  /* Root font-size scales rem units: 8px mobile, 10px desktop */
+  font-size: 8px;
+  line-height: 1.4;
+  overflow: hidden;
+}
+
+@media only screen and (min-width: 768px) {
+  html,
+  body {
+    font-size: 10px;
+  }
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--home-bg);
+}
+
+body a {
+  color: var(--home-muted);
+  text-decoration: none;
+}
+
+body a:hover {
+  color: var(--home-text);
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 50%;
+  z-index: 100;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: var(--home-text);
+  color: var(--home-bg);
+  font-size: 1.4rem;
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
