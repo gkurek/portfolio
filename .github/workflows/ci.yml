@@ -46,15 +46,86 @@ jobs:
           name: dist
           path: dist/
 
-      - name: Deploy to Cyberfolks via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          port: 21
-          protocol: ftps
-          local-dir: dist/
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
-          log-level: standard
-          dangerous-clean-slate: false
+      - name: Verify deploy secrets are set
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          test -n "$FTP_SERVER" || (echo "Missing secret: FTP_SERVER" && exit 1)
+          test -n "$FTP_USERNAME" || (echo "Missing secret: FTP_USERNAME" && exit 1)
+          test -n "$FTP_PASSWORD" || (echo "Missing secret: FTP_PASSWORD" && exit 1)
+          test -n "$FTP_SERVER_DIR" || (echo "Missing secret: FTP_SERVER_DIR" && exit 1)
+
+          echo "FTP_SERVER length: ${#FTP_SERVER}"
+          echo "FTP_USERNAME length: ${#FTP_USERNAME}"
+          echo "FTP_PASSWORD length: ${#FTP_PASSWORD}"
+          echo "FTP_SERVER_DIR length: ${#FTP_SERVER_DIR}"
+
+          raw_pw_len=$(printf '%s' "$FTP_PASSWORD" | wc -c)
+          trim_pw_len=$(printf '%s' "$FTP_PASSWORD" | tr -d '\r\n' | wc -c)
+          if [ "$raw_pw_len" != "$trim_pw_len" ]; then
+            echo "WARNING: FTP_PASSWORD contains hidden newline/CR characters (will be trimmed during deploy)"
+          fi
+
+      - name: Deploy to Cyberfolks
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          set -euo pipefail
+
+          trim() { printf '%s' "$1" | tr -d '\r\n'; }
+
+          FTP_SERVER="$(trim "$FTP_SERVER")"
+          FTP_USERNAME="$(trim "$FTP_USERNAME")"
+          FTP_PASSWORD="$(trim "$FTP_PASSWORD")"
+          FTP_SERVER_DIR="$(trim "$FTP_SERVER_DIR")"
+
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lftp
+
+          export HOME="$RUNNER_TEMP"
+          NETRC="$HOME/.netrc"
+          printf 'machine %s login %s password %s\n' "$FTP_SERVER" "$FTP_USERNAME" "$FTP_PASSWORD" > "$NETRC"
+          chmod 600 "$NETRC"
+
+          deploy_ftps() {
+            echo "Trying FTPS (port 21)..."
+            lftp -c "
+              set net:max-retries 2
+              set net:timeout 30
+              set ftp:ssl-force true
+              set ftp:ssl-protect-data true
+              set ssl:verify-certificate no
+              open -p 21 ftp://$FTP_SERVER
+              mirror -R --verbose dist/ $FTP_SERVER_DIR
+              quit
+            "
+          }
+
+          deploy_sftp() {
+            echo "Trying SFTP (port 222)..."
+            lftp -c "
+              set net:max-retries 2
+              set net:timeout 30
+              set sftp:connect-program 'ssh -a -x -p 222 -o StrictHostKeyChecking=accept-new'
+              open sftp://$FTP_SERVER
+              mirror -R --verbose dist/ $FTP_SERVER_DIR
+              quit
+            "
+          }
+
+          if deploy_ftps; then
+            echo "Deploy succeeded via FTPS"
+          elif deploy_sftp; then
+            echo "Deploy succeeded via SFTP"
+          else
+            echo "Deploy failed via both FTPS and SFTP"
+            exit 1
+          fi
+
+          rm -f "$NETRC"
