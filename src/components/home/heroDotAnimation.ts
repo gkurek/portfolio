@@ -1,5 +1,17 @@
-const FALLBACK_DOT_COLOR = "oklch(75% 0.18 350)";
-const DEG = Math.PI / 180;
+import {
+  BASE_PERSPECTIVE,
+  generateSpherePoints,
+  HERO_DOT_COUNT,
+  HERO_ROTATE_X,
+  HERO_SCALE,
+  HERO_SPHERE_RADIUS,
+  HERO_SPIN_DURATION,
+  makeOrientationBasis,
+  orientOut,
+  orientPoint,
+} from '@/lib/sphere';
+
+const FALLBACK_DOT_COLOR = 'oklch(75% 0.18 350)';
 
 export interface DotParticle {
   el: HTMLSpanElement;
@@ -14,41 +26,9 @@ export interface Shockwave {
   t: number;
 }
 
-interface OrientationBasis {
-  cosYaw: number;
-  sinYaw: number;
-  cosTilt: number;
-  sinTilt: number;
-}
-
-const orientOut = { x: 0, y: 0, z: 0 };
-
-function makeOrientationBasis(yaw: number, tiltDeg: number): OrientationBasis {
-  const tilt = tiltDeg * DEG;
-  return {
-    cosYaw: Math.cos(yaw),
-    sinYaw: Math.sin(yaw),
-    cosTilt: Math.cos(tilt),
-    sinTilt: Math.sin(tilt),
-  };
-}
-
-function orientPoint(
-  x: number,
-  y: number,
-  z: number,
-  basis: OrientationBasis,
-): void {
-  const x1 = x * basis.cosYaw + z * basis.sinYaw;
-  const z1 = -x * basis.sinYaw + z * basis.cosYaw;
-  orientOut.x = x1;
-  orientOut.y = y * basis.cosTilt - z1 * basis.sinTilt;
-  orientOut.z = y * basis.sinTilt + z1 * basis.cosTilt;
-}
-
 function getDotColor(): string {
   const value = getComputedStyle(document.documentElement)
-    .getPropertyValue("--color-accent")
+    .getPropertyValue('--color-accent')
     .trim();
   return value || FALLBACK_DOT_COLOR;
 }
@@ -56,7 +36,7 @@ function getDotColor(): string {
 function setDotTransform(
   particle: DotParticle,
   radialScale = 1,
-  basis?: OrientationBasis,
+  basis?: ReturnType<typeof makeOrientationBasis>,
 ) {
   const { base, radius, scale, el } = particle;
   const extent = radius * radialScale * scale;
@@ -99,18 +79,11 @@ function buildSphere(
   const particles: DotParticle[] = [];
   const frag = document.createDocumentFragment();
   const dotColor = getDotColor();
-  const golden = Math.PI * (3 - Math.sqrt(5));
-  for (let i = 0; i < n; i++) {
-    const yFrac = 1 - (i / (n - 1)) * 2;
-    const r = Math.sqrt(1 - yFrac * yFrac);
-    const theta = golden * i;
-    const x = Math.cos(theta) * r;
-    const z = Math.sin(theta) * r;
-    const y = yFrac;
-    const size = 2 + Math.random() * 0.2;
+
+  for (const { base, size } of generateSpherePoints(n)) {
     const particle: DotParticle = {
-      el: document.createElement("span"),
-      base: [x, y, z],
+      el: document.createElement('span'),
+      base,
       radius,
       size,
       scale,
@@ -118,6 +91,7 @@ function buildSphere(
     particles.push(particle);
     frag.appendChild(makeDot(particle, dotColor));
   }
+
   stage.appendChild(frag);
   return particles;
 }
@@ -208,7 +182,8 @@ export function applyShockwaves(
       );
       const front = wave.t * WAVE_SPEED;
       const gaussian = Math.exp(-((ang - front) ** 2) / WAVE_WIDTH);
-      displacement += gaussian * WAVE_AMP * Math.max(0, 1 - wave.t / WAVE_DURATION);
+      displacement +=
+        gaussian * WAVE_AMP * Math.max(0, 1 - wave.t / WAVE_DURATION);
     }
     setDotTransform(particle, 1 + displacement, basis);
   }
@@ -225,11 +200,6 @@ export function pushShockwave(
   return next;
 }
 
-const STAGE_SIZE = 140;
-const CARD_WIDTH = 220;
-const BASE_PERSPECTIVE = 520;
-const scale = STAGE_SIZE / CARD_WIDTH;
-
 export interface HeroDotVariant {
   scale: number;
   perspective: number;
@@ -239,9 +209,10 @@ export interface HeroDotVariant {
 }
 
 export const HOME_HERO_VARIANT: HeroDotVariant = {
-  scale,
-  perspective: BASE_PERSPECTIVE * scale,
-  rotateX: 18,
-  spinDuration: 11,
-  build: (stage, heroScale) => buildSphere(stage, 480, 75, heroScale),
+  scale: HERO_SCALE,
+  perspective: BASE_PERSPECTIVE * HERO_SCALE,
+  rotateX: HERO_ROTATE_X,
+  spinDuration: HERO_SPIN_DURATION,
+  build: (stage, heroScale) =>
+    buildSphere(stage, HERO_DOT_COUNT, HERO_SPHERE_RADIUS, heroScale),
 };
