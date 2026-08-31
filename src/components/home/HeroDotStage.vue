@@ -4,7 +4,6 @@ import type { DotParticle, HeroDotVariant, Shockwave } from './heroDotAnimation'
 import {
   applyShockwaves,
   findNearestParticle,
-  getSpinYaw,
   pushShockwave,
   resetParticles,
 } from './heroDotAnimation';
@@ -20,27 +19,28 @@ let particles: DotParticle[] = [];
 let waves: Shockwave[] = [];
 let rafId = 0;
 let lastTime = 0;
+let yaw = 0;
 
 function tick(time: number) {
   const dt = Math.min(0.05, (time - lastTime) / 1000);
   lastTime = time;
 
-  if (waves.length > 0) {
-    waves = applyShockwaves(particles, waves, dt);
-  } else {
-    resetParticles(particles);
-  }
-
-  if (waves.length > 0) {
+  const spin = spinEl.value;
+  if (!spin || !particles.length) {
     rafId = requestAnimationFrame(tick);
-  } else {
-    rafId = 0;
+    return;
   }
-}
 
-function startLoop() {
-  if (rafId) return;
-  lastTime = performance.now();
+  yaw += (Math.PI * 2 / props.variant.spinDuration) * dt;
+
+  const tilt = props.variant.rotateX;
+
+  if (waves.length > 0) {
+    waves = applyShockwaves(particles, waves, dt, yaw, tilt);
+  } else {
+    resetParticles(particles, yaw, tilt);
+  }
+
   rafId = requestAnimationFrame(tick);
 }
 
@@ -57,12 +57,12 @@ function onPointerDown(event: PointerEvent) {
     rect,
     event.clientX,
     event.clientY,
-    getSpinYaw(spin),
+    yaw,
     props.variant.rotateX,
     props.variant.perspective,
   );
   waves = pushShockwave(waves, nearest.base);
-  startLoop();
+  waves = applyShockwaves(particles, waves, 0, yaw, props.variant.rotateX);
 }
 
 function render() {
@@ -77,8 +77,10 @@ function render() {
 function onStageMounted() {
   const spin = spinEl.value;
   if (!spin) return;
-  spin.style.animation = `gk-spin ${props.variant.spinDuration}s linear infinite`;
+  yaw = Math.random() * Math.PI * 2;
   render();
+  lastTime = performance.now();
+  rafId = requestAnimationFrame(tick);
 }
 
 onMounted(onStageMounted);
@@ -94,10 +96,7 @@ onUnmounted(() => {
     :style="{ perspective: `${variant.perspective}px` }"
     @pointerdown="onPointerDown"
   >
-    <div
-      class="dots-stage__tilt"
-      :style="{ transform: `rotateX(${variant.rotateX}deg) rotateZ(${variant.rotateZ}deg)` }"
-    >
+    <div class="dots-stage__tilt">
       <div ref="spinEl" class="dots-stage__spin" />
     </div>
   </div>

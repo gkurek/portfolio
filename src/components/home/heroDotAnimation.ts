@@ -1,4 +1,5 @@
-const DOT_COLOR = 'oklch(75% 0.18 350)';
+const DOT_COLOR = "oklch(75% 0.18 350)";
+const DEG = Math.PI / 180;
 
 export interface DotParticle {
   el: HTMLSpanElement;
@@ -13,23 +14,67 @@ export interface Shockwave {
   t: number;
 }
 
-function setDotTransform(particle: DotParticle, radialScale = 1) {
+function orientPoint(
+  x: number,
+  y: number,
+  z: number,
+  yaw: number,
+  tiltDeg: number,
+): [number, number, number] {
+  const cosYaw = Math.cos(yaw);
+  const sinYaw = Math.sin(yaw);
+  const x1 = x * cosYaw + z * sinYaw;
+  const z1 = -x * sinYaw + z * cosYaw;
+
+  const tilt = tiltDeg * DEG;
+  const cosTilt = Math.cos(tilt);
+  const sinTilt = Math.sin(tilt);
+  return [x1, y * cosTilt - z1 * sinTilt, y * sinTilt + z1 * cosTilt];
+}
+
+function setDotTransform(
+  particle: DotParticle,
+  radialScale = 1,
+  yaw?: number,
+  tiltDeg?: number,
+) {
   const { base, radius, scale, el } = particle;
-  const x = base[0] * radius * radialScale;
-  const y = base[1] * radius * radialScale;
-  const z = base[2] * radius * radialScale;
-  el.style.transform = `translate3d(${x * scale}px,${y * scale}px,${z * scale}px)`;
+  const extent = radius * radialScale * scale;
+  const x = base[0] * radius * radialScale * scale;
+  const y = base[1] * radius * radialScale * scale;
+  const z = base[2] * radius * radialScale * scale;
+
+  if (yaw !== undefined && tiltDeg !== undefined) {
+    const [x1, y1, z1] = orientPoint(x, y, z, yaw, tiltDeg);
+    const normalizedZ = extent > 0 ? z1 / extent : 0;
+    const depth = (normalizedZ + 1.4) / 2.8;
+    const sizeScale = 0.75 + depth * 1.15;
+    const dotSize = particle.size * scale * sizeScale;
+    el.style.opacity = String(Math.max(0, Math.min(1, 0.53 + depth * 0.49)));
+    el.style.width = `${dotSize}px`;
+    el.style.height = `${dotSize}px`;
+    el.style.margin = `${-dotSize / 2}px 0 0 ${-dotSize / 2}px`;
+    el.style.transform = `translate3d(${x1}px,${y1}px,${z1}px)`;
+    return;
+  }
+
+  el.style.transform = `translate3d(${x}px,${y}px,${z}px)`;
 }
 
 function makeDot(particle: DotParticle): HTMLSpanElement {
   const { size, scale, el } = particle;
   const s = size * scale;
-  el.style.cssText = `position:absolute;left:0;top:0;width:${s}px;height:${s}px;margin:${-s / 2}px 0 0 ${-s / 2}px;border-radius:50%;background:${DOT_COLOR};box-shadow:0 0 ${s * 1.6}px ${DOT_COLOR.replace(')', ' / .7)')};opacity:.88;pointer-events:none`;
+  el.style.cssText = `position:absolute;left:0;top:0;width:${s}px;height:${s}px;margin:${-s / 2}px 0 0 ${-s / 2}px;border-radius:50%;background:${DOT_COLOR};pointer-events:none`;
   setDotTransform(particle);
   return el;
 }
 
-function buildSphere(stage: HTMLElement, n: number, radius: number, scale: number): DotParticle[] {
+function buildSphere(
+  stage: HTMLElement,
+  n: number,
+  radius: number,
+  scale: number,
+): DotParticle[] {
   const particles: DotParticle[] = [];
   const frag = document.createDocumentFragment();
   const golden = Math.PI * (3 - Math.sqrt(5));
@@ -40,9 +85,9 @@ function buildSphere(stage: HTMLElement, n: number, radius: number, scale: numbe
     const x = Math.cos(theta) * r;
     const z = Math.sin(theta) * r;
     const y = yFrac;
-    const size = 2 + Math.random() * 2;
+    const size = 2 + Math.random() * 0.2;
     const particle: DotParticle = {
-      el: document.createElement('span'),
+      el: document.createElement("span"),
       base: [x, y, z],
       radius,
       size,
@@ -53,15 +98,6 @@ function buildSphere(stage: HTMLElement, n: number, radius: number, scale: numbe
   }
   stage.appendChild(frag);
   return particles;
-}
-
-const DEG = Math.PI / 180;
-
-export function getSpinYaw(spinEl: HTMLElement): number {
-  const raw = getComputedStyle(spinEl).transform;
-  if (!raw || raw === 'none') return 0;
-  const matrix = new DOMMatrixReadOnly(raw);
-  return Math.atan2(matrix.m13, matrix.m33);
 }
 
 export function findNearestParticle(
@@ -77,30 +113,22 @@ export function findNearestParticle(
   const my = clientY - stageRect.top;
   const cx = stageRect.width / 2;
   const cy = stageRect.height / 2;
-  const tilt = tiltDeg * DEG;
-  const cosTilt = Math.cos(tilt);
-  const sinTilt = Math.sin(tilt);
-  const cosYaw = Math.cos(yaw);
-  const sinYaw = Math.sin(yaw);
 
   let best = particles[0];
   let bestDist = Infinity;
 
   for (const particle of particles) {
-    const x = particle.base[0] * particle.radius * particle.scale;
-    const y = particle.base[1] * particle.radius * particle.scale;
-    const z = particle.base[2] * particle.radius * particle.scale;
+    const extent = particle.radius * particle.scale;
+    const x = particle.base[0] * extent;
+    const y = particle.base[1] * extent;
+    const z = particle.base[2] * extent;
+    const [x1, y1, z1] = orientPoint(x, y, z, yaw, tiltDeg);
 
-    const x1 = x * cosYaw + z * sinYaw;
-    const z1 = -x * sinYaw + z * cosYaw;
-    const y2 = y * cosTilt - z1 * sinTilt;
-    const z2 = y * sinTilt + z1 * cosTilt;
+    if (z1 < 0) continue;
 
-    if (z2 < 0) continue;
-
-    const factor = perspective / (perspective - z2);
+    const factor = perspective / (perspective - z1);
     const sx = cx + x1 * factor;
-    const sy = cy + y2 * factor;
+    const sy = cy + y1 * factor;
     const dist = (sx - mx) ** 2 + (sy - my) ** 2;
 
     if (dist < bestDist) {
@@ -112,16 +140,31 @@ export function findNearestParticle(
   return best;
 }
 
-export function resetParticles(particles: DotParticle[]) {
+export function resetParticles(
+  particles: DotParticle[],
+  yaw: number,
+  tiltDeg: number,
+) {
   for (const particle of particles) {
-    setDotTransform(particle, 1);
+    setDotTransform(particle, 1, yaw, tiltDeg);
   }
 }
 
-export function applyShockwaves(particles: DotParticle[], waves: Shockwave[], dt: number): Shockwave[] {
+const WAVE_DURATION = 1.6;
+const WAVE_SPEED = 3.8;
+const WAVE_WIDTH = 0.048;
+const WAVE_AMP = 0.34;
+
+export function applyShockwaves(
+  particles: DotParticle[],
+  waves: Shockwave[],
+  dt: number,
+  yaw: number,
+  tiltDeg: number,
+): Shockwave[] {
   const active = waves.filter((wave) => {
     wave.t += dt;
-    return wave.t < 2.4;
+    return wave.t < WAVE_DURATION;
   });
 
   for (const particle of particles) {
@@ -138,17 +181,20 @@ export function applyShockwaves(particles: DotParticle[], waves: Shockwave[], dt
           ),
         ),
       );
-      const front = wave.t * 2.2;
-      const gaussian = Math.exp(-((ang - front) ** 2) / 0.055);
-      displacement += gaussian * 0.34 * Math.max(0, 1 - wave.t / 2.4);
+      const front = wave.t * WAVE_SPEED;
+      const gaussian = Math.exp(-((ang - front) ** 2) / WAVE_WIDTH);
+      displacement += gaussian * WAVE_AMP * Math.max(0, 1 - wave.t / WAVE_DURATION);
     }
-    setDotTransform(particle, 1 + displacement);
+    setDotTransform(particle, 1 + displacement, yaw, tiltDeg);
   }
 
   return active;
 }
 
-export function pushShockwave(waves: Shockwave[], dir: [number, number, number]): Shockwave[] {
+export function pushShockwave(
+  waves: Shockwave[],
+  dir: [number, number, number],
+): Shockwave[] {
   const next = [...waves, { dir, t: 0 }];
   if (next.length > 4) next.shift();
   return next;

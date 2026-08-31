@@ -1,13 +1,3 @@
-@keyframes gk-spin {
-  from {
-    transform: rotateY(0deg);
-  }
-
-  to {
-    transform: rotateY(360deg);
-  }
-}
-
 .dots-stage {
   width: 140px;
   height: 140px;
@@ -17,6 +7,8 @@
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
 }
 
 .dots-stage__tilt,
