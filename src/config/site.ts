@@ -7,13 +7,11 @@ export const site = {
   social: [
     {
       id: "github",
-      icon: "fab fa-github",
       url: "https://github.com/gkurek",
       title: "GitHub profile",
     },
     {
       id: "linkedin",
-      icon: "fab fa-linkedin",
       url: "https://www.linkedin.com/in/grzegorz-kurek",
       title: "LinkedIn profile",
     },

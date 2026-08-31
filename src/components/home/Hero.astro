@@ -1,8 +1,40 @@
+---
+import { site } from '../../config/site';
+import HeroDotStage from './HeroDotStage.vue';
+import SocialLink from './SocialLink.astro';
+---
+
+<main class="home-hero">
+  <div class="home-hero__bg" aria-hidden="true"></div>
+  <div class="home-hero__grain" aria-hidden="true"></div>
+
+  <div class="home-hero__content">
+    <HeroDotStage
+      client:idle
+      class="home-hero__stage"
+      aria-hidden="true"
+    />
+
+    <h1 class="home-hero__name">{site.name}</h1>
+
+    <p class="home-hero__tagline">
+      <span>{site.tagline}</span>
+      <span class="home-hero__cursor" aria-hidden="true">_</span>
+    </p>
+
+    <nav class="home-hero__social" aria-label="Social links">
+      {site.social.map((item) => (
+        <SocialLink id={item.id} url={item.url} title={item.title} />
+      ))}
+    </nav>
+  </div>
+</main>
+
+<style lang="scss">
 $home-bg: #101010;
 $home-bg-vignette: radial-gradient(ellipse at 50% 40%, #181818 0%, #101010 72%);
 $home-text: #e5e5e5;
 $home-muted: #8c8c8c;
-$home-dim: #4a4a4a;
 $home-accent: oklch(75% 0.18 350);
 
 @keyframes home-blink {
@@ -40,29 +72,54 @@ $home-accent: oklch(75% 0.18 350);
   }
 }
 
-body.home-page {
+:global(html),
+:global(body) {
+  --color-accent: #{$home-accent};
   background: $home-bg-vignette;
   background-color: $home-bg;
   color: $home-text;
   font-family: 'Inter', sans-serif;
+  font-size: 8px;
+  line-height: 1.4;
   overflow: hidden;
 
-  a {
-    color: $home-muted;
-    text-decoration: none;
-
-    &:hover {
-      color: $home-text;
-    }
-  }
-
-  .home-hero__social a:hover {
-    color: $home-accent;
+  @media only screen and (min-width: 768px) {
+    font-size: 10px;
   }
 
   ::selection {
     background: $home-accent;
     color: $home-bg;
+  }
+}
+
+:global(body a) {
+  color: $home-muted;
+  text-decoration: none;
+
+  &:hover {
+    color: $home-text;
+  }
+}
+
+:global(.home-hero__social a) {
+  position: relative;
+  color: $home-muted;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+  }
+
+  &:hover {
+    color: $home-accent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $home-accent;
+    outline-offset: 2px;
+    color: $home-accent;
   }
 }
 
@@ -137,19 +194,30 @@ body.home-page {
 
   a {
     display: flex;
-    transition: color 0.2s ease-out;
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
   }
 }
 
-.home-hero__stage {
+:global(.home-hero__stage) {
   position: absolute;
   bottom: 100%;
   left: 50%;
   z-index: 1;
   transform: translateX(-50%);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero__cursor {
+    animation: none;
+  }
+
+  .home-hero__name:hover {
+    animation: none;
+    text-shadow: none;
+  }
+
+  :global(.home-hero__stage) {
+    pointer-events: none;
+    cursor: default;
+  }
+}
+</style>

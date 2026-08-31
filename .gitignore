@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # legacy sass cache
 .sass-cache/
+
+# local scratch / reference assets
+temp/
