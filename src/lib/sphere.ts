@@ -64,9 +64,20 @@ export function generateSpherePoints(count: number): Array<{
 export const STAGE_SIZE = 140;
 export const CARD_WIDTH = 220;
 export const BASE_PERSPECTIVE = 520;
-export const HERO_DOT_COUNT = 480;
+export const HERO_DOT_COUNT_DESKTOP = 480;
+export const HERO_DOT_COUNT_MOBILE = 220;
 export const HERO_SPHERE_RADIUS = 75;
 export const HERO_ROTATE_X = 18;
 export const HERO_SPIN_DURATION = 11;
 
 export const HERO_SCALE = STAGE_SIZE / CARD_WIDTH;
+
+const MOBILE_MEDIA = '(max-width: 767px), (pointer: coarse)';
+
+/** Fewer particles on mobile — layout-heavy per-dot updates are costly on weak GPUs. */
+export function getHeroDotCount(): number {
+  if (typeof window === 'undefined') return HERO_DOT_COUNT_DESKTOP;
+  return window.matchMedia(MOBILE_MEDIA).matches
+    ? HERO_DOT_COUNT_MOBILE
+    : HERO_DOT_COUNT_DESKTOP;
+}

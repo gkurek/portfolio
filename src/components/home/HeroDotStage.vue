@@ -20,11 +20,12 @@ let waves: Shockwave[] = [];
 let rafId = 0;
 let lastTime = 0;
 let yaw = 0;
+let prefersReducedMotion = false;
 let isTabVisible = true;
 let motionMq: MediaQueryList | null = null;
 
 function tick(time: number) {
-  if (!isTabVisible || isReducedMotion.value) {
+  if (!isTabVisible || prefersReducedMotion) {
     rafId = 0;
     return;
   }
@@ -52,7 +53,7 @@ function tick(time: number) {
 }
 
 function startAnimation() {
-  if (isReducedMotion.value || !isTabVisible || rafId) return;
+  if (prefersReducedMotion || !isTabVisible || rafId) return;
   lastTime = performance.now();
   rafId = requestAnimationFrame(tick);
 }
@@ -65,7 +66,7 @@ function stopAnimation() {
 }
 
 function triggerShockwave(clientX: number, clientY: number) {
-  if (isReducedMotion.value) return;
+  if (prefersReducedMotion) return;
 
   const root = rootEl.value;
   const spin = spinEl.value;
@@ -87,14 +88,14 @@ function triggerShockwave(clientX: number, clientY: number) {
 }
 
 function onPointerDown(event: PointerEvent) {
-  if (isReducedMotion.value) return;
+  if (prefersReducedMotion) return;
 
   event.preventDefault();
   triggerShockwave(event.clientX, event.clientY);
 }
 
 function onKeyDown(event: KeyboardEvent) {
-  if (isReducedMotion.value) return;
+  if (prefersReducedMotion) return;
   if (event.key !== 'Enter' && event.key !== ' ') return;
 
   event.preventDefault();
@@ -125,8 +126,9 @@ function onVisibilityChange() {
 }
 
 function onMotionPreferenceChange(event: MediaQueryListEvent) {
+  prefersReducedMotion = event.matches;
   isReducedMotion.value = event.matches;
-  if (isReducedMotion.value) {
+  if (prefersReducedMotion) {
     stopAnimation();
     waves = [];
     if (particles.length) {
@@ -142,13 +144,14 @@ function onStageMounted() {
   if (!spin) return;
 
   motionMq = window.matchMedia('(prefers-reduced-motion: reduce)');
-  isReducedMotion.value = motionMq.matches;
+  prefersReducedMotion = motionMq.matches;
+  isReducedMotion.value = prefersReducedMotion;
 
   yaw = Math.random() * Math.PI * 2;
   render();
   resetParticles(particles, yaw, variant.rotateX);
 
-  if (!isReducedMotion.value) {
+  if (!prefersReducedMotion) {
     startAnimation();
   }
 }
@@ -217,5 +220,9 @@ onUnmounted(() => {
 .dots-stage__tilt,
 .dots-stage__spin {
   transform-style: preserve-3d;
+}
+
+.dots-stage__spin {
+  contain: layout style;
 }
 </style>

@@ -1,7 +1,7 @@
 import {
   BASE_PERSPECTIVE,
   generateSpherePoints,
-  HERO_DOT_COUNT,
+  getHeroDotCount,
   HERO_ROTATE_X,
   HERO_SCALE,
   HERO_SPHERE_RADIUS,
@@ -12,6 +12,8 @@ import {
 } from '@/lib/sphere';
 
 const FALLBACK_DOT_COLOR = 'oklch(75% 0.18 350)';
+/** Slight boost — transform scale renders a touch smaller than former width/height sizing. */
+const DOT_DISPLAY_SCALE = 1.05;
 
 export interface DotParticle {
   el: HTMLSpanElement;
@@ -50,12 +52,9 @@ function setDotTransform(
     const normalizedZ = extent > 0 ? z1 / extent : 0;
     const depth = (normalizedZ + 1.4) / 2.8;
     const sizeScale = 0.75 + depth * 1.15;
-    const dotSize = particle.size * scale * sizeScale;
     el.style.opacity = String(Math.max(0, Math.min(1, 0.53 + depth * 0.49)));
-    el.style.width = `${dotSize}px`;
-    el.style.height = `${dotSize}px`;
-    el.style.margin = `${-dotSize / 2}px 0 0 ${-dotSize / 2}px`;
-    el.style.transform = `translate3d(${x1}px,${y1}px,${z1}px)`;
+    // Scale via transform only — avoids layout thrashing from width/height/margin updates.
+    el.style.transform = `translate3d(${x1}px,${y1}px,${z1}px) scale(${sizeScale})`;
     return;
   }
 
@@ -64,8 +63,8 @@ function setDotTransform(
 
 function makeDot(particle: DotParticle, dotColor: string): HTMLSpanElement {
   const { size, scale, el } = particle;
-  const s = size * scale;
-  el.style.cssText = `position:absolute;left:0;top:0;width:${s}px;height:${s}px;margin:${-s / 2}px 0 0 ${-s / 2}px;border-radius:50%;background:${dotColor};pointer-events:none`;
+  const s = size * scale * DOT_DISPLAY_SCALE;
+  el.style.cssText = `position:absolute;left:0;top:0;width:${s}px;height:${s}px;margin:${-s / 2}px 0 0 ${-s / 2}px;border-radius:50%;background:${dotColor};pointer-events:none;will-change:transform`;
   setDotTransform(particle);
   return el;
 }
@@ -214,5 +213,5 @@ export const HOME_HERO_VARIANT: HeroDotVariant = {
   rotateX: HERO_ROTATE_X,
   spinDuration: HERO_SPIN_DURATION,
   build: (stage, heroScale) =>
-    buildSphere(stage, HERO_DOT_COUNT, HERO_SPHERE_RADIUS, heroScale),
+    buildSphere(stage, getHeroDotCount(), HERO_SPHERE_RADIUS, heroScale),
 };
